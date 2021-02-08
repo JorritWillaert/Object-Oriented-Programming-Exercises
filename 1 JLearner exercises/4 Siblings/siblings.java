@@ -3,10 +3,18 @@ class Person{
   	Person nextOldestSibling;
 }
 
-void recursively_increase_ages(Person person){
+void iterative_add_child(Person person){
+	while (person.nextOldestSibling != null){
+    	person = person.nextOldestSibling;
+    }
+  	Person baby = new Person();
+  	person.nextOldestSibling = baby;
+}
+
+void recursive_increase_ages(Person person){
 	person.age++;
   	if (person.nextOldestSibling!= null){
-      	recursively_increase_ages(person.nextOldestSibling);
+      	recursive_increase_ages(person.nextOldestSibling);
     }
 }
 
