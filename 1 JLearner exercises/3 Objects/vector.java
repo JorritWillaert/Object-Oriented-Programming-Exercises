@@ -3,6 +3,14 @@ class Vector{
   int y;
 }
 
+Vector greatest_vector(Vector vector1, Vector vector2){
+	if (size(vector1) < size(vector2)){
+    	return vector1;
+    } else{
+      return vector2;
+    }
+}
+
 int size(Vector vector){
  	 return square_root((vector.x * vector.x) + (vector.y * vector.y));
 }
