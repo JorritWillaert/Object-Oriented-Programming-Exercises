@@ -3,6 +3,13 @@ class Vector{
   int y;
 }
 
+Vector sum_of_vectors(Vector vector1, Vector vector2){
+	Vector sum_vector = new Vector();
+  	sum_vector.x = vector1.x + vector2.x;
+  	sum_vector.y = vector1.y + vector2.y;
+  	return sum_vector;
+}
+
 Vector greatest_vector(Vector vector1, Vector vector2){
 	if (size(vector1) < size(vector2)){
     	return vector1;
