@@ -3,6 +3,12 @@ class Vector{
   int y;
 }
 
+Vector translate_vector(Vector vector1, Vector vector2){
+  	vector1.x = vector1.x + vector2.x;
+  	vector1.y = vector1.y + vector2.y;
+  	return vector1;
+}
+
 Vector sum_of_vectors(Vector vector1, Vector vector2){
 	Vector sum_vector = new Vector();
   	sum_vector.x = vector1.x + vector2.x;
