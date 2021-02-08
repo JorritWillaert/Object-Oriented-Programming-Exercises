@@ -3,6 +3,15 @@ class Person{
   	Person nextOldestSibling;
 }
 
+void recursive_add_child(Person person){
+	if (person.nextOldestSibling == null){
+    	Person baby = new Person();
+  		person.nextOldestSibling = baby;
+    } else {
+      recursive_add_child(person.nextOldestSibling);
+    }
+}
+
 void iterative_add_child(Person person){
 	while (person.nextOldestSibling != null){
     	person = person.nextOldestSibling;
