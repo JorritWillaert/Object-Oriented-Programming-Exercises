@@ -1,3 +1,16 @@
+boolean sortedVersionOfArray(int[] array, int[] sorted_array){
+	if (array.length != sorted_array.length){
+    	return false;
+    }
+  	if (isSorted(sorted_array) == false){ //JLearner does not allow to use the more convenient notation 'if (!isSorted(sorted_array))'
+    	return false;
+    }
+  	if (permutationOfOtherArray(array, sorted_array) == false){ //JLearner does not allow to use the more convenient notation 'if (!isSorted(sorted_array))'
+    	return false;
+    }
+  	return true;
+}
+
 boolean permutationOfOtherArray(int[] array1, int[] array2){
 	if (array1.length != array2.length){
     	return false;
