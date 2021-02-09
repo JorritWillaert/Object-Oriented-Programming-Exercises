@@ -1,3 +1,16 @@
+int[] heapSort(int[] array){
+	int[] heap = new int[array.length];
+  	heap[0] = array[0];
+  	for (int i = 1; i < array.length; i++){
+    	heapAdd(array, i);
+    }
+  	int[] sorted_array = new int[array.length];
+  for (int i = array.length; i > 0; i--){
+  		sorted_array[i - 1] = heapRemove(array, i);
+  }
+  return sorted_array;
+}
+
 int heapRemove(int[] array, int n){
   	int root = array[0];
   	array[0] = array[n - 1];
