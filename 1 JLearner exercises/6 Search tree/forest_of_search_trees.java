@@ -4,6 +4,19 @@ class TreeNode{
   	int value;
 }
 
+int numberOfLeaves(TreeNode node){
+  	int count = 1;
+  	if (node.firstChild == null){
+     	return 1;
+    }
+  	TreeNode child = node.firstChild;
+	while (child.nextSibling != null){
+    	count += numberOfLeaves(child);
+      	child = child.nextSibling;
+    }
+ 	return count;
+}
+
 TreeNode[] sequenceOfChildren(TreeNode node){
 	TreeNode child = node.firstChild;
   	if (child == null){
