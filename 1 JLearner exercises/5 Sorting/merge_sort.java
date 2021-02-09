@@ -1,3 +1,23 @@
+int[] mergeSort(int[] array){
+	if (array.length <= 1){
+    	return copy(array);
+    }
+  	int half = array.length / 2;
+  	int[] left_half = subarray(array, 0, half);
+  	left_half = mergeSort(left_half);
+  	int[] right_half = subarray(array, half, array.length);
+  	right_half = mergeSort(right_half);
+  	int[] merged_array = merge(left_half, right_half);
+  	return merged_array;
+}
+
+int[] copy(int[] array) {
+  int[] copy = new int[array.length];
+  for (int i = 0; i < array.length; i++)
+    copy[i] = array[i];
+  return copy;
+}
+
 int[] subarray(int[] array, int a, int b){
 	int[] subarray = new int[b - a];
   	for (int i = 0; i < b - a; i++){
