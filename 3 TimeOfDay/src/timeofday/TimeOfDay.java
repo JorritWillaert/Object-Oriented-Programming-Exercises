@@ -4,19 +4,16 @@ package timeofday;
 /**
  * Every instance of this class represents the time of the day.
  * @invar Minutes in the interval [0 - 59]
-	 * 		| getMinutes() >= 0 && getMinutes() <= 59
-	 * @invar Hours in the interval [0 - 23]
-	 * 		| getHours() >= 0 && getHours() <= 23
+ * 		| getMinutes() >= 0 && getMinutes() <= 59
+ * @invar Hours in the interval [0 - 23]
+ * 		| getHours() >= 0 && getHours() <= 23
  */
 public class TimeOfDay {
 	/**
-	 * @invar Minutes in the interval [0 - 59]
-	 * 		| minutes >= 0 && minutes <= 59
-	 * @invar Hours in the interval [0 - 23]
-	 * 		| hours >= 0 && hours <= 23
+	 * @invar minutesSinceMidnight in the interval [0 - 1439]
+	 * 		| minutesSinceMidnight >= 0 && minutesSinceMidnight <= 1439
 	 */
-	private int minutes;
-	private int hours;
+	private int minutesSinceMidnight;
 	
 	
 	/**
@@ -28,8 +25,8 @@ public class TimeOfDay {
 	 * @post | getHours() == initialHours
 	 */
 	public TimeOfDay(int initialMinutes, int initialHours) {
-		this.minutes  = initialMinutes;
-		this.hours = initialHours;
+		minutesSinceMidnight  = initialMinutes;
+		minutesSinceMidnight += initialHours * 60;
 	}
 	
 	/**
@@ -41,7 +38,7 @@ public class TimeOfDay {
 	 * 		| this.getHours() == old(this.getHours())
 	 */
 	public void setMinutes(int minutes) {
-		this.minutes = minutes;
+		minutesSinceMidnight = getHours() * 60 + minutes;
 	}
 	
 	/**
@@ -53,14 +50,14 @@ public class TimeOfDay {
 	 * 		| this.getMinutes() == old(this.getMinutes())
 	 */
 	public void setHours(int hours) {
-		this.hours = hours;
+		minutesSinceMidnight = hours * 60 + getMinutes();
 	}
 	
 	public int getMinutes() {
-		return minutes;
+		return minutesSinceMidnight % 60;
 	}
 	
 	public int getHours() {
-		return hours;
+		return minutesSinceMidnight / 60;
 	}
 }
