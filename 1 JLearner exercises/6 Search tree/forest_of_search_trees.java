@@ -4,6 +4,12 @@ class TreeNode{
   	int value;
 }
 
+int[] arrayLeafValues(TreeNode node){
+	int[] arrayValues = new int[numberOfLeaves(node)];
+  	addLeafValues(node, arrayValues, 0);
+  	return arrayValues;
+}
+
 int addLeafValues(TreeNode node, int[] array, int i){
   	if (node.firstChild == null){
       	array[i] = node.value;
