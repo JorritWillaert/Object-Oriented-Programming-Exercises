@@ -4,6 +4,21 @@ class TreeNode{
   	int value;
 }
 
+int addLeafValues(TreeNode node, int[] array, int i){
+  	if (node.firstChild == null){
+      	array[i] = node.value;
+      	i++;
+     	return i;
+    }
+  	TreeNode child = node.firstChild;
+	while (child.nextSibling != null){
+    	i = addLeafValues(child, array, i++);
+      	child = child.nextSibling;
+    }
+  	i = addLeafValues(child, array, i++);
+ 	return i;
+}
+
 int numberOfLeaves(TreeNode node){
   	int count = 1;
   	if (node.firstChild == null){
