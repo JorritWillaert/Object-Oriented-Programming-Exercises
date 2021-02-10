@@ -4,6 +4,26 @@ class TreeNode{
   	int value;
 }
 
+boolean validTree(TreeNode node){
+  	TreeNode child = node.firstChild;
+  	while (child.nextSibling != null){
+    	if (leavesLessOrEqual(child, node.value) == false){ //JLearner does not know the more convenient notation 'if !(leavesLessOrEqual(child, child.value)'
+        	return false;
+        }
+      	if (child.firstChild != null){
+        	return validTree(child);
+        }
+      	child = child.nextSibling;
+    }
+    if (leavesLessOrEqual(child, node.value) == false){ //JLearner does not know the more convenient notation 'if !(leavesLessOrEqual(child, child.value)'
+      	return false;
+    }
+    if (child.firstChild != null){
+      	return validTree(child);
+    }
+  	return true;
+}
+
 boolean leavesLessOrEqual(TreeNode node, int value){
 	int[] arrayValues = arrayLeafValues(node);
   	for (int i = 0; i < arrayValues.length; i++){
