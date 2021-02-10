@@ -4,6 +4,16 @@ class TreeNode{
   	int value;
 }
 
+boolean leavesLessOrEqual(TreeNode node, int value){
+	int[] arrayValues = arrayLeafValues(node);
+  	for (int i = 0; i < arrayValues.length; i++){
+    	if (arrayValues[i] > value){
+        	return false;
+        }
+    }
+  	return true;
+}
+
 int[] arrayLeafValues(TreeNode node){
 	int[] arrayValues = new int[numberOfLeaves(node)];
   	addLeafValues(node, arrayValues, 0);
