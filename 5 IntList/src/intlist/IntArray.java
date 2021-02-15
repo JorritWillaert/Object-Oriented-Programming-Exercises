@@ -37,15 +37,22 @@ public class IntArray {
 	 * Contractual:
 	 * @pre The given index should be greater or equal than zero
 	 * 		| 0 <= index
+	 * @pre The given index should be smaller than the length of the array
+	 * 		| index < getLength()
 	 * 
 	 * Defensive:
 	 * @throws IllegalArgumentException if the given index is less than zero
 	 * 		| index < 0
+	 * @throws IllegalArgumentException if the given index is greater than the length of the array
+	 * 		| index >= getLength()
 	 */
 	public int getElement(int index) {
 		//Defensive
 		if (index < 0) {
 			throw new IllegalArgumentException("Index less than zero");
+		}
+		if (index >= getLength()) {
+			throw new IllegalArgumentException("Index out of upper bound");
 		}
 		return array[index];
 	}
