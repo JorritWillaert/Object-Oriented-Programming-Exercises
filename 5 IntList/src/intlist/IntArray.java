@@ -24,6 +24,8 @@ public class IntArray {
 	
 	/**
 	 * Return the length of the array
+	 * @post Check that the length of the array is greater or equal than zero
+	 * 		| result >= 0
 	 */
 	public int getLength() {
 		return array.length;
