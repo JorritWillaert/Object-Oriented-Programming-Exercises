@@ -39,12 +39,16 @@ public class IntArray {
 	 * 		| 0 <= index
 	 * @pre The given index should be smaller than the length of the array
 	 * 		| index < getLength()
+	 * @pre The length of the array should be greater than zero.
+	 * 		| getLength() > 0
 	 * 
 	 * Defensive:
 	 * @throws IllegalArgumentException if the given index is less than zero
 	 * 		| index < 0
 	 * @throws IllegalArgumentException if the given index is greater than the length of the array
 	 * 		| index >= getLength()
+	 * @throws IllegalArgumentException if the length of the array is less or equal than zero
+	 * 		| getLength() <= 0
 	 */
 	public int getElement(int index) {
 		//Defensive
@@ -53,6 +57,9 @@ public class IntArray {
 		}
 		if (index >= getLength()) {
 			throw new IllegalArgumentException("Index out of upper bound");
+		}
+		if (getLength() <= 0) {
+			throw new IllegalArgumentException("The array does not yet exist");
 		}
 		return array[index];
 	}
