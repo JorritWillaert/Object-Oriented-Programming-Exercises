@@ -10,7 +10,7 @@ class IntArrayTest {
 
 	@Test
 	void test() {
-		//Note: the tests are the same for IntArray and IntLinkeList, since the API should be the same, regardless of the implementation. 
+		//Note: the tests are the same for IntArray and IntLinkeList, since the API should be the same, regardless of the implementation.
 		IntArray myArray = new IntArray();
 		assertEquals(0, myArray.getLength());
 		myArray.appendElement(4);

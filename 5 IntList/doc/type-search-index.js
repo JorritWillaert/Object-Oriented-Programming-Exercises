@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"intlist","l":"IntArray"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"intlist","l":"IntArray"},{"p":"intlist","l":"IntLinkedList"}];updateSearchResults();
