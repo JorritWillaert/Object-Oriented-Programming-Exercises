@@ -8,7 +8,10 @@ class TimeoOfDayTest {
 
 	@Test
 	void test() {
-		TimeOfDay myTimeOfDay = new TimeOfDay(0, 0);
+		TimeOfDay myTimeOfDay = new TimeOfDay(54, 9);
+		assertEquals(9, myTimeOfDay.getHours());
+		assertEquals(54, myTimeOfDay.getMinutes());
+		assertEquals(9 * 60 + 54, myTimeOfDay.getMinutesSinceMidnight());
 		myTimeOfDay.setHours(8);
 		myTimeOfDay.setMinutes(30);
 		myTimeOfDay.setMinutes(40);
