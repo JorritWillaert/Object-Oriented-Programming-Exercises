@@ -75,7 +75,17 @@ public class IntArray {
 	/**
 	 * @mutates | this
 	 * 
+	 * Contractual:
 	 * @pre | 0 <= index && index < getLength()
+	 * 
+	 * Defensive:
+	 * @throws IllegalArgumentException if the given index is less than zero
+	 * 		| index < 0
+	 * @throws IllegalArgumentException if the given index is greater than the length of the array
+	 * 		| index >= getLength()
+	 * @throws IllegalArgumentException if the length of the array is less or equal than zero
+	 * 		| getLength() <= 0
+	 * 
 	 * @post | getLength() == old(getLength())
 	 * @post | IntStream.range(0, getLength()).allMatch(i ->
 	 * 		 |	 	i == index ?
@@ -86,6 +96,15 @@ public class IntArray {
 	 * // statement ? true-value : false-value
 	 */
 	public void setElement(int index, int value) { 
+		if (index < 0) {
+			throw new IllegalArgumentException("Index less than zero");
+		}
+		if (index >= getLength()) {
+			throw new IllegalArgumentException("Index out of upper bound");
+		}
+		if (getLength() <= 0) {
+			throw new IllegalArgumentException("The array does not yet exist");
+		}
 		array[index] = value;
 	}
 	
