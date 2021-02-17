@@ -46,6 +46,7 @@ class MatrixTestImmutable {
 		assertTrue(dataSumColumnMajor != doubleMatrixColumnMajorSum);
 		assertArrayEquals(doubleMatrixColumnMajorSum, dataSumColumnMajor);
 		
+		//Make dataSum Array of rows
 		double[][] dataSumArrayOfRows = {{3., 4, 5., 6.}, {6.2, 11., 7., 12.2}, {1.5, 4.0, 7.2, 10.9}};
 		double[][] doubleMatrixArrayOfRowsSum = matrixSum.getMatrixArrayOfRows();
 		assertTrue(dataSumArrayOfRows != doubleMatrixArrayOfRowsSum);
