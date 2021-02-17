@@ -103,13 +103,13 @@ public class MatrixImmutableRowMajorStored {
 	 * @post The returned matrix in column-major order must resemble the stored matrix
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
-	 * 		| 			getElement(i, j) == result[j * getNumCol() + i])))
+	 * 		| 			getElement(i, j) == result[j * getNumRow() + i])))
 	 */
 	public double[] getMatrixColumnMajor() {
 		double [] matrixColMajor = new double[matrixRowMajor.length];
 		for (int i = 0; i < getNumRow(); i++) {
 			for (int j = 0; j < getNumCol(); j++) {
-				matrixColMajor[j * getNumCol() + i] = matrixRowMajor[i * getNumCol() + j];
+				matrixColMajor[j * getNumRow() + i] = matrixRowMajor[i * getNumCol() + j];
 			}
 		}
 		return matrixColMajor;
@@ -145,7 +145,13 @@ public class MatrixImmutableRowMajorStored {
 	 * 		| 			givenMatrix.getElement(i, j) * scalingFactor == result.getElement(i, j)))) 
 	 */
 	public static MatrixImmutableRowMajorStored scaled(MatrixImmutableRowMajorStored givenMatrix, double scalingFactor) {
-		throw new RuntimeException("Not yet implemented");
+		double[] copyMatrixRowMajor = givenMatrix.getMatrixRowMajor();
+		for (int i = 0; i < givenMatrix.getNumRow() * givenMatrix.getNumCol(); i++) {
+			copyMatrixRowMajor[i] *= scalingFactor;
+		} 
+		return new MatrixImmutableRowMajorStored(givenMatrix.getNumRow(), givenMatrix.getNumCol(), copyMatrixRowMajor);
+		//No need to clone, since this was a copy made in this method that can't be accessed from outside
+		// + the matrix is cloned in the constructor before saving.
 	}
 	
 	/**
@@ -162,6 +168,13 @@ public class MatrixImmutableRowMajorStored {
 	 * 		|				== result.getElement(i, j)))) 
 	 */
 	public static MatrixImmutableRowMajorStored plus(MatrixImmutableRowMajorStored givenMatrix1, MatrixImmutableRowMajorStored givenMatrix2) {
-		throw new RuntimeException("Not yet implemented");	
+		double[] copyMatrix1RowMajor = givenMatrix1.getMatrixRowMajor();
+		double[] copyMatrix2RowMajor = givenMatrix2.getMatrixRowMajor();
+		for (int i = 0; i < givenMatrix1.getNumRow() * givenMatrix1.getNumCol(); i++) {
+			copyMatrix1RowMajor[i] += copyMatrix2RowMajor[i];
+		} 
+		return new MatrixImmutableRowMajorStored(givenMatrix1.getNumRow(), givenMatrix1.getNumCol(), copyMatrix1RowMajor);
+		//No need to clone, since this was a copy made in this method that can't be accessed from outside
+		// + the matrix is cloned in the constructor before saving.	
 	}
 }	
