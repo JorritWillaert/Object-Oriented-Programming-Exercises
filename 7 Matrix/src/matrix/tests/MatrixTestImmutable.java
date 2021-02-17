@@ -24,9 +24,9 @@ class MatrixTestImmutable {
 		
 		assertEquals(3, matrix1.getNumRow());
 		assertEquals(4, matrix1.getNumCol());
-		assertEquals(2.3, matrix1.getElement(3, 2));
+		assertEquals(2.3, matrix1.getElement(2, 1));
 		data1[10] = 5.2;
-		assertEquals(2.3, matrix1.getElement(3, 2)); //Test for representation object
+		assertEquals(2.3, matrix1.getElement(2, 1)); //Test for representation object
 		
 		MatrixImmutableRowMajorStored matrix1ScaledWithOnePointFive = MatrixImmutableRowMajorStored.scaled(matrix1, 1.5);
 		MatrixImmutableRowMajorStored matrixSum = MatrixImmutableRowMajorStored.plus(matrix1, matrix2);
