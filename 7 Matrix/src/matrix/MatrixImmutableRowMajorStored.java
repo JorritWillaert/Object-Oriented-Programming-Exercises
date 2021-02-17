@@ -41,7 +41,7 @@ public class MatrixImmutableRowMajorStored {
 	 * @post The representation object has the same elements as the given array
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
-	 * 		|			getElement(i, j) == array[i * (getNumCol() - 1) + j])))
+	 * 		|			getElement(i, j) == array[i * getNumCol() + j])))
 	 */
 	public MatrixImmutableRowMajorStored(int numRows, int numCols, double[] array) { 
 		if (numRows * numCols != array.length)
@@ -60,7 +60,7 @@ public class MatrixImmutableRowMajorStored {
 	 * @basic
 	 */
 	public int getNumRow() {
-		throw new RuntimeException("Not yet implemented");
+		return numRows;
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class MatrixImmutableRowMajorStored {
 	 * @basic
 	 */
 	public int getNumCol() {
-		throw new RuntimeException("Not yet implemented");
+		return matrixRowMajor.length / numRows;
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class MatrixImmutableRowMajorStored {
 	 * 		| col >= 0
 	 */
 	public double getElement(int row, int col) {
-		throw new RuntimeException("Not yet implemented");
+		return matrixRowMajor[row * getNumCol() + col];
 	}
 	
 	/**
@@ -91,10 +91,10 @@ public class MatrixImmutableRowMajorStored {
 	 * @post The returned matrix in row-major order must resemble the stored matrix
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
-	 * 		| 			getElement(i, j) == result[i * (getNumCol() - 1) + j])))
+	 * 		| 			getElement(i, j) == result[i * getNumCol() + j])))
 	 */
 	public double[] getMatrixRowMajor() {
-		throw new RuntimeException("Not yet implemented");
+		return matrixRowMajor.clone();
 	}
 	
 	/**
@@ -103,10 +103,16 @@ public class MatrixImmutableRowMajorStored {
 	 * @post The returned matrix in column-major order must resemble the stored matrix
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
-	 * 		| 			getElement(i, j) == result[j * (getNumCol() - 1) + i])))
+	 * 		| 			getElement(i, j) == result[j * getNumCol() + i])))
 	 */
 	public double[] getMatrixColumnMajor() {
-		throw new RuntimeException("Not yet implemented");
+		double [] matrixColMajor = new double[matrixRowMajor.length];
+		for (int i = 0; i < getNumRow(); i++) {
+			for (int j = 0; j < getNumCol(); j++) {
+				matrixColMajor[j * getNumCol() + i] = matrixRowMajor[i * getNumCol() + j];
+			}
+		}
+		return matrixColMajor;
 	}
 	
 	/**
@@ -118,7 +124,13 @@ public class MatrixImmutableRowMajorStored {
 	 * 		| 			getElement(i, j) == result[i][j])))
 	 */
 	public double[][] getMatrixArrayOfRows() {
-		throw new RuntimeException("Not yet implemented");
+		double [][] matrixArrayOfRows = new double[getNumRow()][getNumCol()];
+		for (int i = 0; i < getNumRow(); i++) {
+			for (int j = 0; j < getNumCol(); j++) {
+				matrixArrayOfRows[i][j] = matrixRowMajor[i * getNumCol() + j];
+			}
+		}
+		return matrixArrayOfRows;
 	}
 	
 	/**
