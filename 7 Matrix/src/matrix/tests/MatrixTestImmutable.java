@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import matrix.MatrixImmutableColumnMajorStored;
 import matrix.MatrixImmutableRowMajorStored;
 
 class MatrixTestImmutable {
@@ -17,10 +18,10 @@ class MatrixTestImmutable {
 		double[] data1ScaledWithOnePointFive = {1.5, 2.25, 3., 3.75, 7.5, 7.875, 6., 9., 1.5, 3.45, 6.75, 9.3};
 		double[] dataSum = {3., 4, 5., 6., 6.2, 11., 7., 12.2, 1.5, 4.0, 7.7, 10.9};
 		
-		MatrixImmutableRowMajorStored matrix1 = new MatrixImmutableRowMajorStored(numRows, numCols, data1);
-		MatrixImmutableRowMajorStored matrix2 = new MatrixImmutableRowMajorStored(numRows, numCols, data2);
-		//MatrixImmutableColumnMajorStored matrix1 = new MatrixImmutableColumnMajorStored(numRows, numCols);
-		//MatrixImmutableColumnMajorStored matrix2 = new MatrixImmutableColumnMajorStored(numRows, numCols);
+		//MatrixImmutableRowMajorStored matrix1 = new MatrixImmutableRowMajorStored(numRows, numCols, data1);
+		//MatrixImmutableRowMajorStored matrix2 = new MatrixImmutableRowMajorStored(numRows, numCols, data2);
+		MatrixImmutableColumnMajorStored matrix1 = new MatrixImmutableColumnMajorStored(numRows, numCols, data1);
+		MatrixImmutableColumnMajorStored matrix2 = new MatrixImmutableColumnMajorStored(numRows, numCols, data2);
 		
 		assertEquals(3, matrix1.getNumRow());
 		assertEquals(4, matrix1.getNumCol());
@@ -28,10 +29,10 @@ class MatrixTestImmutable {
 		data1[10] = 5.2;
 		assertEquals(2.3, matrix1.getElement(2, 1)); //Test for representation object
 		
-		MatrixImmutableRowMajorStored matrix1ScaledWithOnePointFive = MatrixImmutableRowMajorStored.scaled(matrix1, 1.5);
-		MatrixImmutableRowMajorStored matrixSum = MatrixImmutableRowMajorStored.plus(matrix1, matrix2);
 		//MatrixImmutableRowMajorStored matrix1ScaledWithOnePointFive = MatrixImmutableRowMajorStored.scaled(matrix1, 1.5);
 		//MatrixImmutableRowMajorStored matrixSum = MatrixImmutableRowMajorStored.plus(matrix1, matrix2);
+		MatrixImmutableColumnMajorStored matrix1ScaledWithOnePointFive = MatrixImmutableColumnMajorStored.scaled(matrix1, 1.5);
+		MatrixImmutableColumnMajorStored matrixSum = MatrixImmutableColumnMajorStored.plus(matrix1, matrix2);
 	
 		double[] doubleMatrixRowMajorScaled = matrix1ScaledWithOnePointFive.getMatrixRowMajor();
 		assertTrue(data1ScaledWithOnePointFive != doubleMatrixRowMajorScaled);
