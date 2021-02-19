@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import matrix.MatrixMutableArrayOfRowsStored;
 import matrix.MatrixMutableRowMajorStored;
 
 class MatrixTestMutable {
@@ -17,10 +18,12 @@ class MatrixTestMutable {
 		double[] data1ScaledWithOnePointFive = {1.5, 2.25, 3., 3.75, 7.5, 7.875, 6., 9., 1.5, 3.45, 6.75, 9.3};
 		double[] dataSum = {3., 4, 5., 6., 6.2, 11., 7., 12.2, 1.5, 4.0, 7.7, 10.9};
 		
-		MatrixMutableRowMajorStored matrix1 = new MatrixMutableRowMajorStored(numRows, numCols, data1);
-		MatrixMutableRowMajorStored matrix3 = new MatrixMutableRowMajorStored(numRows, numCols, data1);
-		MatrixMutableRowMajorStored matrix2 = new MatrixMutableRowMajorStored(numRows, numCols, data2);
-		//Objects for MatrixMutableArrayOfRows
+		//MatrixMutableRowMajorStored matrix1 = new MatrixMutableRowMajorStored(numRows, numCols, data1);
+		//MatrixMutableRowMajorStored matrix3 = new MatrixMutableRowMajorStored(numRows, numCols, data1);
+		//MatrixMutableRowMajorStored matrix2 = new MatrixMutableRowMajorStored(numRows, numCols, data2);
+		MatrixMutableArrayOfRowsStored matrix1 = new MatrixMutableArrayOfRowsStored(numRows, numCols, data1);
+		MatrixMutableArrayOfRowsStored matrix3 = new MatrixMutableArrayOfRowsStored(numRows, numCols, data1);
+		MatrixMutableArrayOfRowsStored matrix2 = new MatrixMutableArrayOfRowsStored(numRows, numCols, data2);
 		
 		assertEquals(3, matrix1.getNumRow());
 		assertEquals(4, matrix1.getNumCol());
@@ -30,7 +33,6 @@ class MatrixTestMutable {
 		
 		matrix1.scale(1.5);
 		matrix2.add(matrix3); //matrix3 holds the same array as the original matrix1
-		//Scale and add for MatrixMutableArrayOfRows
 	
 		double[] doubleMatrixRowMajorScaled = matrix1.getMatrixRowMajor();
 		assertArrayEquals(data1ScaledWithOnePointFive, doubleMatrixRowMajorScaled, 1e-5);
