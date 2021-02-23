@@ -17,8 +17,9 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		|		matrixArrayOfRows[0].length == matrixArrayOfRows[i].length) 
 	 * 
 	 * @representationObject
+	 * @representationObjects
 	 */
-	private double[][] matrixArrayOfRows;
+	private double[][] matrixArrayOfRows; //representationObjects --> Elements of first array are also representation objects
 	
 	//Handle invalid arguments in constructors defensive. Handle invalid arguments in methods contractual.
 	/**
@@ -56,8 +57,9 @@ public class MatrixMutableArrayOfRowsStored {
 	 * Return the number of rows in the matrix
 	 * 
 	 * @basic
+	 * @immutable
 	 */
-	public int getNumRow() {
+	public int getNumRow() { //@immutable, since the dimensions of the matrix may never change
 		return matrixArrayOfRows.length;
 	}
 	
@@ -65,9 +67,10 @@ public class MatrixMutableArrayOfRowsStored {
 	 * Return the number of columns in the matrix
 	 * 
 	 * @basic
+	 * @immutable
 	 */
-	public int getNumCol() {
-		return matrixArrayOfRows[0].length;
+	public int getNumCol() { //@immutable, since the dimensions of the matrix may never change
+		return matrixArrayOfRows[0].length; //Better to store this, since the matrixArrayOfRows may have no elements --> Error!
 	}
 	
 	/**
@@ -90,6 +93,8 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) == result[i * getNumCol() + j])))
+	 * 
+	 * @creates | result
 	 */
 	public double[] getMatrixRowMajor() {
 		double [] matrixRowMajor = new double[getNumRow() * getNumCol()];
@@ -108,6 +113,8 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) == result[j * getNumRow() + i])))
+	 * 
+	 * @creates | result
 	 */
 	public double[] getMatrixColumnMajor() {
 		double [] matrixColMajor = new double[getNumRow() * getNumCol()];
@@ -126,9 +133,18 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) == result[i][j])))
+	 * 
+	 * @creates | result, ...result
 	 */
 	public double[][] getMatrixArrayOfRows() {
-		return matrixArrayOfRows.clone();
+		double[][] result = new double[getNumRow()][getNumCol()];
+		for (int i = 0; i < getNumRow(); i++) {
+			for (int j = 0; j < getNumCol(); j++) {
+				result[i][j] = matrixArrayOfRows[i][j];
+			}
+		}
+		return result; //Not enought to just clone --> clone takes shallow copy (inner arrays are just referenced again: representation exposure)
+		//return Arrays.stream(matrixArrayOfRows).map(row -> row.clone()).toArray(n -> new double[n][])
 	}
 	
 	/**
@@ -141,6 +157,8 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) == old(getMatrixRowMajor())[i * getNumCol() + j] * scalingFactor)))
+	 * 
+	 * @mutates | this
 	 */
 	public void scale(double scalingFactor) { //old(getElement) apparently didn't work
 		for (int i = 0; i < getNumRow(); i++) {
@@ -162,6 +180,9 @@ public class MatrixMutableArrayOfRowsStored {
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			old(getMatrixRowMajor())[i * getNumCol() + j] + givenMatrix2.getElement(i, j)
 	 * 		|				== getElement(i, j)))) 
+	 * 
+	 * @inspects | givenMatrix2
+	 * @mutates | this
 	 */
 	public void add(MatrixMutableArrayOfRowsStored givenMatrix2) { //old(getElement) apparently didn't work
 		double[][] copyMatrix2ArrayOfRows = givenMatrix2.getMatrixArrayOfRows();
