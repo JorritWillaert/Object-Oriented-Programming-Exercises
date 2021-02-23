@@ -1,0 +1,22 @@
+Implementeer een methode "void execute(int[] registers, ?[] instructions)" die een programma uitvoert, gegeven als een array van instructies. 
+Het elementtype van deze laatste array moet je zelf bepalen. De instructies kunnen de registers (de elementen van de array "registers") uitlezen en aanpassen. 
+De mogelijke instructies zijn:
+
+- LoadConstant(r, c): laadt de int-waarde c in het register op index r
+- Decrement(r): verlaagt de waarde van het register op index r met 1
+- Multiply(r1, r2): vervangt de waarde van het register op index r1 door haar product met de waarde van het register op index r2
+- JumpIfZero(r, a): springt naar de instructie op index a in "instructions" als de waarde van het register op index r verschilt van 0
+- Jump(a): springt naar de instructie op index a
+- Halt(): stopt de uitvoering
+
+Bijvoorbeeld: als je het volgende programmaatje uitvoert vertrekkende van een "registers"-array met op index 0 de waarde x en op index 1 de waarde y, 
+dan zal na afloop op index 2 de waarde x tot de macht y zitten:
+
+LoadConstant(2, 1)
+JumpIfZero(1, 5)
+Multiply(2, 0)
+Decrement(1)
+Jump(1)
+Halt()
+
+Definieer eerst de nodige klassen om de verschillende soorten instructies voor te stellen, en zodat je een elementtype kunt bepalen voor de instructions-array.
