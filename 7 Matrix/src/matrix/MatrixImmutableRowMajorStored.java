@@ -37,7 +37,9 @@ public class MatrixImmutableRowMajorStored {
 	 * Create an instance of this class and initialize matrix (a representation object) 
 	 * with the given row-majored array.
 	 * 
-	 * @param array The elements for the matrix, in row major order
+	 * @param array The elements for the matrix, in row major order 
+	 * 
+	 * @inspects | array
 	 * 
 	 * @throws IllegalArgumentException if numRows is negative
 	 * 		| numRows < 0
@@ -102,8 +104,12 @@ public class MatrixImmutableRowMajorStored {
 	 * @basic
 	 * @pre The row may not be negative
 	 * 		| row >= 0
+	 * @pre The row may not be greater or equal than the number of rows
+	 * 		| row < getNumRow()
 	 * @pre The column may not be negative
 	 * 		| col >= 0
+	 * @pre The column may not be greater or equal than the number of rows
+	 * 		| col < getNumCol()
 	 */
 	public double getElement(int row, int col) {
 		return matrixRowMajor[row * getNumCol() + col];
@@ -191,6 +197,9 @@ public class MatrixImmutableRowMajorStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) * scalingFactor == result.getElement(i, j))))
+	 * 
+	 * @inspects | this
+	 * @creates | result
 	 */
 	public MatrixImmutableRowMajorStored scaled(double scalingFactor) { //@creates is not really needed, since immutable. But needed if this was not immutable
 		double[] copyMatrixRowMajor = getMatrixRowMajor();
@@ -218,6 +227,9 @@ public class MatrixImmutableRowMajorStored {
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) + givenMatrix2.getElement(i, j)
 	 * 		|				== result.getElement(i, j))))
+	 * 
+	 * @inspects | this, givenMatrix2
+	 * @creates | result
 	 */
 	public MatrixImmutableRowMajorStored plus(MatrixImmutableRowMajorStored givenMatrix2) {
 		double[] copyMatrix1RowMajor = getMatrixRowMajor();
