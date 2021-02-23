@@ -4,40 +4,80 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-abstract class Instructions {}
+abstract class Instructions {
+	public abstract void executeInstruction();
+}
 
 class LoadConstant extends Instructions {
+	private int index;
+	private int constant;
+	
 	public LoadConstant(int index, int constant) {
+		this.index = index;
+		this.constant = constant;
+	}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
 
 class Decrement extends Instructions {
+	private int index;
+	
 	public Decrement(int index) {
+		this.index = index;
+	}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
 
 class Multiply extends Instructions {
+	private int index1;
+	private int index2;
+	
 	public Multiply(int index1, int index2) {
+		this.index1 = index1;
+		this.index2 = index2;
+	}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
 
 class JumpIfZero extends Instructions {
+	private int index;
+	private int pcToGo;
+	
 	public JumpIfZero(int index, int pcToGo) {
+		this.index = index;
+		this.pcToGo = pcToGo;
+	}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
 
 class Jump extends Instructions {
+	private int pcToGo;
+	
 	public Jump(int pcToGo) {
+		this.pcToGo = pcToGo;
+	}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
 
 class Halt extends Instructions {
-	public Halt() {
+	public Halt() {}
+	
+	public void executeInstruction() {
 		throw new AssertionError("Not yet implemented");
 	}
 }
