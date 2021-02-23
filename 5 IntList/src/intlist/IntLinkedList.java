@@ -8,51 +8,41 @@ import java.util.stream.IntStream;
  * @invar The length of the array is greater or equal to zero.
  * 		| 0 <= getLength()
  */
-public class IntLinkedList {
+public class IntLinkedList { //Use a cyclical linked list
 	/**
 	 * Each instance of this class represents a node of a linked list
 	 */
-	private class Node {
+	private static class Node {
+		/**
+		 * @invar | previous != null
+		 * @invar | next != null
+		 * @invar | next.previous == this
+		 * @invar | previous.next == this
+		 * @peerObject
+		 */
+		private Node previous;
 		private int value;
+		/**
+		 * @peerObject
+		 */
 		private Node next;
 		
-		/**
-		 * Initialize a node
-		 * @post The value of the node should be zero
-		 * 		| getValue() == 0
-		 * @post The next pointer of the node should be null
-		 * 		| getNextNode() == null 
-		 */
-		private Node() {};
-		
-		private int getValue() {
-			return value;
-		}
-		
-		private Node getNextNode() {
-			return next;
-		}
-		/**
-		 * @post The next pointer points to the nextNode
-		 * 		| getNextNode() == nextNode
-		 */
-		private void setNextNode(Node nextNode) {
-			next = nextNode;
-		}
-		
-		/**
-		 * The value of the node equals the given value
-		 * 		| this.value == value
-		 */
-		private void setValue(int value) {
-			this.value = value;
+		private int getLengthTo(Node node) {
+			if (this == node)
+				return 0;
+			else
+				return 1 + next.getLengthTo(node);
 		}
 	}
-
+	
 	/**
+	 * @invar | sentinel != null
+	 * @invar | sentinel.next.getLengthTo(sentinel) == length
+	 * 
 	 * @representationObject
 	 */
-	private Node head;
+	private Node sentinel;
+	private int length;
 	
 	/**
 	 * Initialize an empty array
@@ -60,24 +50,37 @@ public class IntLinkedList {
 	 * @post The length of the array equals zero
 	 * 		| getLength() == 0
 	 */
-	public IntLinkedList() {}
+	public IntLinkedList() {
+		sentinel = new Node();
+		sentinel.next = sentinel;
+		sentinel.previous = sentinel;
+	}
+	
+	private Node getNodeAt(int index) {
+		if (index <= length/2) {
+			Node node = sentinel.next;
+			while (0 < index) {
+				node = node.next;
+				index--;
+			}
+			return node;
+		} else {
+			Node node = sentinel;
+			while (index < length) {
+				node = node.previous;
+				index++;
+			}
+			return node;
+		}
+		
+	}
 	
 	/**
 	 * Return the length of the array
-	 * @post Check that the length of the array is greater or equal than zero
-	 * 		| result >= 0
+	 * @post | result == getArray().length
 	 */
 	public int getLength() {
-		if (head == null) {
-			return 0;
-		}
-		int count = 1;
-		Node node = head;
-		while (node.getNextNode() != null) {
-			node = node.getNextNode();
-			count++;
-		}
-		return count;
+		return length;
 	}
 	
 	/**
@@ -115,14 +118,7 @@ public class IntLinkedList {
 			throw new IllegalArgumentException("The array does not yet exist");
 		}
 		
-		Node node = head;
-		for (int i = 0; i < index; i++) {
-			node = node.getNextNode();
-			if (node == null) {
-				throw new RuntimeException("The node does not exist");
-			}
-		}
-		return node.getValue();
+		return getNodeAt(index).value;
 	}
 	
 	/**
@@ -148,14 +144,7 @@ public class IntLinkedList {
 		if (getLength() <= 0) {
 			throw new IllegalArgumentException("The array does not yet exist");
 		}
-		Node node = head;
-		for (int i = 0; i < index; i++) {
-			node = node.getNextNode();
-			if (node == null) {
-				throw new RuntimeException("The node does not exist");
-			}
-		}
-		node.setValue(value);
+		getNodeAt(index).value = value;
 	}
 	
 	/**
@@ -164,16 +153,13 @@ public class IntLinkedList {
 	 * @basic
 	 */
 	public int[] getArray() {
-		int[] array = new int[getLength()];
-		Node node = head;
-		for (int i = 0; i < getLength(); i++) {
-			if (node == null) {
-				throw new RuntimeException("The node does not exist");
-			}
-			array[i] = node.value;
-			node = node.getNextNode();
+		int[] result = new int[length];
+		Node node = sentinel.next;
+		for (int i = 0; i < length; i++) {
+			result[i] = node.value;
+			node = node.next;
 		}
-		return array;
+		return result;
 	}
 	
 	/**
@@ -193,21 +179,13 @@ public class IntLinkedList {
 	 * @post | Arrays.equals(getArray(), 0, getLength() - 1, old(getArray()), 0, old(getLength()))
 	 */
 	public void appendElement(int element) {
-		if (head == null) {
-			head = new Node();
-			head.setValue(element);
-		} else {
-		Node node = head;
-		for (int i = 0; i < getLength() - 1; i++) {
-			node = node.getNextNode();
-			if (node == null) {
-				throw new RuntimeException("The node does not exist");
-			}
-		}
 		Node newNode = new Node();
-		node.setNextNode(newNode);
-		newNode.setValue(element);
-		}
+		newNode.value = element;
+		newNode.next = sentinel;
+		newNode.previous = sentinel.previous;
+		sentinel.previous = newNode;
+		newNode.previous.next = newNode;
+		length++;
 	}
 	
 	/**
@@ -230,15 +208,10 @@ public class IntLinkedList {
 	 * 		|		getElement(i) == old(getArray())[i])
 	 */
 	public int removeLastElement() {
-		Node node = head;
-		for (int i = 0; i < getLength() - 2; i++) {
-			node = node.getNextNode();
-			if (node == null) {
-				throw new RuntimeException("The node does not exist");
-			}
-		}
-		int lastValue = node.getNextNode().getValue();
-		node.setNextNode(null);
-		return lastValue;
+		Node lastElement = sentinel.previous;
+		sentinel.previous = lastElement.previous;
+		lastElement.previous.next = sentinel;
+		length--;
+		return lastElement.value;
 	}
 }
