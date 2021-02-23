@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 abstract class Instructions {
-	public abstract void executeInstruction();
+	public abstract int executeInstruction(int[] registers, int pc);
 }
 
 class LoadConstant extends Instructions {
@@ -17,8 +17,9 @@ class LoadConstant extends Instructions {
 		this.constant = constant;
 	}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		registers[index] = constant;
+		return pc++;
 	}
 }
 
@@ -29,8 +30,9 @@ class Decrement extends Instructions {
 		this.index = index;
 	}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		registers[index]--;
+		return pc++;
 	}
 }
 
@@ -43,8 +45,9 @@ class Multiply extends Instructions {
 		this.index2 = index2;
 	}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		registers[index1] *= registers[index2];
+		return pc++;
 	}
 }
 
@@ -57,8 +60,11 @@ class JumpIfZero extends Instructions {
 		this.pcToGo = pcToGo;
 	}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		if (registers[index] == 0)
+			return pcToGo;
+		else
+			return pc++;
 	}
 }
 
@@ -69,24 +75,27 @@ class Jump extends Instructions {
 		this.pcToGo = pcToGo;
 	}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		return pcToGo;
 	}
 }
 
 class Halt extends Instructions {
 	public Halt() {}
 	
-	public void executeInstruction() {
-		throw new AssertionError("Not yet implemented");
+	public int executeInstruction(int[] registers, int pc) {
+		return -1;
 	}
 }
 
 class InstructionProgram {
-	private InstructionProgram(int[] registers){};
+	
+	private InstructionProgram(){}
 	
 	public static void execute(int[] registers, Instructions[] instructions) {
-		throw new AssertionError("Not yet implemented");
+		int pc = 0;
+		while (pc >= 0)
+			pc = instructions[pc].executeInstruction(registers, pc);
 	}
 }
 
@@ -94,14 +103,15 @@ class InstructionProgramTest {
 	
 	@Test
 	void test() {
+		assertEquals(1, 1);
 		int[] registers = new int[32];
 		registers[0] = 4; //Base
 		registers[1] = 5; //Exponent
 		
-		Instructions[] instructions = {new LoadConstant(2, 1), new JumpIfZero(1, 5), new Multiply(2, 0), new Decrement(1), new Jump(1), new Halt()};
+		Instructions[] instructions = new Instructions[] {new LoadConstant(2, 1), new JumpIfZero(1, 5), 
+									  new Multiply(2, 0), new Decrement(1), new Jump(1), new Halt()};
 		
 		InstructionProgram.execute(registers, instructions); //Calculate 4 to the power of 5
 		assertEquals(1024, registers[2]);
 	}
-
 }
