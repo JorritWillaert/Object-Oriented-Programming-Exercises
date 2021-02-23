@@ -56,8 +56,9 @@ public class MatrixMutableRowMajorStored {
 	 * Return the number of rows in the matrix
 	 * 
 	 * @basic
+	 * @immutable
 	 */
-	public int getNumRow() {
+	public int getNumRow() { //@immutable, since the dimensions of the matrix may never change
 		return numRows;
 	}
 	
@@ -65,8 +66,9 @@ public class MatrixMutableRowMajorStored {
 	 * Return the number of columns in the matrix
 	 * 
 	 * @basic
+	 * @immutable
 	 */
-	public int getNumCol() {
+	public int getNumCol() { //@immutable, since the dimensions of the matrix may never change
 		return matrixRowMajor.length / numRows;
 	}
 	
@@ -141,6 +143,8 @@ public class MatrixMutableRowMajorStored {
 	 * 		| IntStream.range(0, getNumRow()).allMatch(i -> 
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			getElement(i, j) == old(getMatrixRowMajor())[i * getNumCol() + j] * scalingFactor)))
+	 * 
+	 * @mutates | this
 	 */
 	public void scale(double scalingFactor) { //old(getElement) apparently didn't work
 		for (int i = 0; i < getNumRow() * getNumCol(); i++) {
@@ -160,6 +164,9 @@ public class MatrixMutableRowMajorStored {
 	 * 		|		(IntStream.range(0, getNumCol()).allMatch(j -> 
 	 * 		| 			old(getMatrixRowMajor())[i * getNumCol() + j] + givenMatrix2.getElement(i, j)
 	 * 		|				== getElement(i, j)))) 
+	 * 
+	 * @inspects | givenMatrix2
+	 * @mutates | this
 	 */
 	public void add(MatrixMutableRowMajorStored givenMatrix2) { //old(getElement) apparently didn't work
 		double[] copyMatrix2RowMajor = givenMatrix2.getMatrixRowMajor();
