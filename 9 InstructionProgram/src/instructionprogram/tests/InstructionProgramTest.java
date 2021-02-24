@@ -2,6 +2,8 @@ package instructionprogram.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 abstract class Instructions {
@@ -19,7 +21,7 @@ class LoadConstant extends Instructions {
 	
 	public int executeInstruction(int[] registers, int pc) {
 		registers[index] = constant;
-		return pc++;
+		return pc + 1;
 	}
 }
 
@@ -32,7 +34,7 @@ class Decrement extends Instructions {
 	
 	public int executeInstruction(int[] registers, int pc) {
 		registers[index]--;
-		return pc++;
+		return pc + 1;
 	}
 }
 
@@ -47,7 +49,7 @@ class Multiply extends Instructions {
 	
 	public int executeInstruction(int[] registers, int pc) {
 		registers[index1] *= registers[index2];
-		return pc++;
+		return pc + 1;
 	}
 }
 
@@ -64,7 +66,7 @@ class JumpIfZero extends Instructions {
 		if (registers[index] == 0)
 			return pcToGo;
 		else
-			return pc++;
+			return pc + 1;
 	}
 }
 
