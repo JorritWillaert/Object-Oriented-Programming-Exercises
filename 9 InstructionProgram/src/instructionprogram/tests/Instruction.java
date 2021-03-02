@@ -30,6 +30,19 @@ class Decrement extends Instructions {
 		program.registers[index]--;
 		program.pc++;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Decrement))
+			return false;
+		Decrement otherDi = (Decrement) other;
+		return otherDi.index == index;
+	}
+	
+	@Override
+	public String toString() {
+		return "Decrement(" + index + ")";
+	}
 }
 
 class Multiply extends Instructions {
@@ -81,6 +94,11 @@ class Halt extends Instructions {
 	
 	void executeInstruction(InstructionProgram program) {
 		program.stop = true;
+	}
+	
+	@Override
+	public boolean equals(Object other) { //Override the 'equals' method of Object
+		return other instanceof Halt;
 	}
 }
 

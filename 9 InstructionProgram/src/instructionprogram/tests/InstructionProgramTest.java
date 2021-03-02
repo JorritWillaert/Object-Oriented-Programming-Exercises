@@ -26,4 +26,12 @@ class InstructionProgramTest {
 		assertEquals(1024, power(4, 5));
 		assertEquals(1, power(5, 0));
 	}
+	
+	@Test
+	void testObject() {
+		assertEquals(new Halt(), new Halt()); //Thanks to the 'equals' method overrided in Halt
+		assertEquals(new Decrement(0), new Decrement(0));
+		
+		assertEquals("Instruction: Decrement(0)", "Instruction: " + new Decrement(0)); //Thanks to the 'toString' method
+	}
 }
