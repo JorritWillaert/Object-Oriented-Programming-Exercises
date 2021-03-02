@@ -1,32 +1,49 @@
 package instructionprogram.tests;
 
-abstract class Instructions {}
+abstract class Instructions {
+	abstract void executeInstruction(InstructionProgram program);
+}
 
 class LoadConstant extends Instructions {
-	int index;
-	int constant;
+	private int index;
+	private int constant;
 	
 	LoadConstant(int index, int constant) {
 		this.index = index;
 		this.constant = constant;
 	}
+	
+	void executeInstruction(InstructionProgram program) {
+		program.registers[index] = constant;
+		program.pc++;
+	}
 }
 
 class Decrement extends Instructions {
-	int index;
+	private int index;
 	
 	Decrement(int index) {
 		this.index = index;
 	}
+	
+	void executeInstruction(InstructionProgram program) {
+		program.registers[index]--;
+		program.pc++;
+	}
 }
 
 class Multiply extends Instructions {
-	int index1;
-	int index2;
+	private int index1;
+	private int index2;
 	
 	Multiply(int index1, int index2) {
 		this.index1 = index1;
 		this.index2 = index2;
+	}
+	
+	void executeInstruction(InstructionProgram program) {
+		program.registers[index1] *= program.registers[index2];
+		program.pc++;
 	}
 }
 
@@ -38,6 +55,13 @@ class JumpIfZero extends Instructions {
 		this.index = index;
 		this.pcToGo = pcToGo;
 	}
+	
+	public void executeInstruction(InstructionProgram program) {
+		if (program.registers[index] == 0)
+			program.pc = pcToGo;
+		else
+			program.pc++;
+	}
 }
 
 class Jump extends Instructions {
@@ -46,45 +70,39 @@ class Jump extends Instructions {
 	Jump(int pcToGo) {
 		this.pcToGo = pcToGo;
 	}
+	
+	void executeInstruction(InstructionProgram program) {
+		program.pc = pcToGo;
+	}
 }
 
 class Halt extends Instructions {
-	Halt() {}
+	public Halt() {}
+	
+	void executeInstruction(InstructionProgram program) {
+		program.stop = true;
+	}
 }
 
 class InstructionProgram {
+	boolean stop;
+	int pc;
+	int[] registers;
+	Instructions[] instructions;
 	
-	private InstructionProgram(){}
+	private InstructionProgram(int[] registers, Instructions[] instructions){
+		this.registers = registers;
+		this.instructions = instructions;
+	}
 	
-	static void execute(int[] registers, Instructions[] instructions) {
-		int pc = 0;
-		while (pc >= 0) {
+	void run() {
+		while (!stop) {
 			Instructions instruction = instructions[pc];
-			if (instruction instanceof LoadConstant) {
-				LoadConstant lci = (LoadConstant) instruction;
-				registers[lci.index] = lci.constant;
-				pc++;
-			} else if (instruction instanceof Decrement) {
-				Decrement di = (Decrement) instruction;
-				registers[di.index]--;
-				pc++;
-			} else if (instruction instanceof Multiply) {
-				Multiply mi = (Multiply) instruction;
-				registers[mi.index1] *= registers[mi.index2];
-				pc++;
-			} else if (instruction instanceof JumpIfZero) {
-				JumpIfZero jiz = (JumpIfZero) instruction;
-				if (registers[jiz.index] == 0)
-					pc = jiz.pcToGo;
-				else
-					pc++;
-			} else if (instruction instanceof Jump) {
-				Jump ji = (Jump) instruction;
-				pc = ji.pcToGo;
-			} else if (instruction instanceof Halt)
-				break;
-			else 
-				throw new AssertionError();
+			instruction.executeInstruction(this);
 		}
+	}
+	
+	public static void execute(int[] registers, Instructions[] instructions) {
+		new InstructionProgram(registers, instructions).run();
 	}
 }
