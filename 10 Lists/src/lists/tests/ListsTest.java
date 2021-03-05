@@ -11,6 +11,8 @@ class ListsTest {
 		EmptyList myEmptyList = new EmptyList();
 		int[] ints = {1, 2, 3};
 		NonEmptyList myNonEmptyList = new NonEmptyList(ints);
+		
+		assertEquals("[1,2,3]", ""+ myNonEmptyList);
 	}
 
 }

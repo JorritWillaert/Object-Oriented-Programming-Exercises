@@ -52,8 +52,9 @@ class NonEmptyList extends Lists {
 	public String toString() {
 		String string = "[" + head; 
 		for (int i = 0; i < tail.length; i++) {
-			string = string + ", " + tail[i];
+			string = string + "," + tail[i];
 		}
+		string += "]";
 		return string;
 	}
 }
