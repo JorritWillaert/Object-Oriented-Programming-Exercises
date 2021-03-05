@@ -11,6 +11,13 @@ class EmptyList extends Lists {
 	public String toString() {
 		return "[]";
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof EmptyList)
+			return true;
+		return false;
+	}
 }
 
 class NonEmptyList extends Lists {
@@ -56,6 +63,22 @@ class NonEmptyList extends Lists {
 		}
 		string += "]";
 		return string;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof NonEmptyList))
+			return false;
+		NonEmptyList otherNonEmptyList = (NonEmptyList) other;
+		if (otherNonEmptyList.getLength() != getLength())
+			return false;
+		if (otherNonEmptyList.getHead() != getHead())
+			return false;
+		int[] otherTail = otherNonEmptyList.getTail();
+		for (int i = 0; i < otherNonEmptyList.getLength() - 1; i++)
+			if (otherTail[i] != tail[i])
+				return false;
+		return true;
 	}
 }
 
