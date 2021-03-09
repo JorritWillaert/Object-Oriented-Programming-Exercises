@@ -9,7 +9,7 @@ class QueueTest {
 	void testHasFifoBehavior(Queue queue) {
 		assertArrayEquals(queue.getElements(), new Object[] {});
 		
-		queue.put(10); 
+		queue.put(10);
 		queue.put(20);
 		
 		assertEquals(10, queue.take());

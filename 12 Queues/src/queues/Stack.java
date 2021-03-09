@@ -7,7 +7,8 @@ import java.util.Arrays;
  * 
  * @invar | getElements() != null
  */
-public class Stack extends Queue { //Not a problem to use 'extends Queue' for Java - Same methods; Syntactically equal
+public class Stack extends Bag { //Not a problem to use 'extends Queue' for Java - Same methods; Syntactically equal. But wrong specification
+	//Queue and Stack do have a tighter specification than Bag --> Correct to say that Stack and Queue are an extension of Bag.
 	
 	private Object[] elements = new Object[0];
 	

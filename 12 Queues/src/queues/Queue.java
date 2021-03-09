@@ -7,7 +7,8 @@ import java.util.Arrays;
  * 
  * @invar | getElements() != null
  */
-public class Queue {
+public class Queue extends Bag {
+	//Queue and Stack do have a tighter specification than Bag --> Correct to say that Stack and Queue are an extension of Bag.
 	
 	private Object[] elements = new Object[0];
 	
