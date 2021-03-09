@@ -2,10 +2,10 @@ package company;
 
 public abstract class Math {
 	
-	//@pre | false --> Methode hoeft in geen enkele omstandigheid te werken
+	//(Earlier) @pre | false --> Methode hoeft in geen enkele omstandigheid te werken
 	/**
-	 * @pre | false
-	 * @post | true
+	 * @pre | 0 <= x
+	 * @post | result == x
 	 */
 	public abstract int absoluteValue(int x);
 }
