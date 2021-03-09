@@ -3,16 +3,17 @@ package company;
 public class Program {
 	
 	public static void main(String[] args) {
-		printLocations(new Company());
+		printLocations(new CompanyA());
 	}
 	
+	//opgeloste methode van de oproep in main = opgeroepen methode in main
 	/**
-	 * @pre | company != null
+	 * @pre | company != null  
 	 */
 	public static void printLocations(Company company) {
-		String[] locations = company.getLocations();
-		for (int i = 0; i < 3; i++) { //Due to the post-condition is this statement correct
-			System.out.println(locations[i]);
+		String[] locations = company.getLocations(); //Dynamically bounded
+		for (int i = 0; i < 2; i++) { 
+			System.out.println(locations[i]); //Statically bounded
 		}
 	}
 }
