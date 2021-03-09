@@ -42,6 +42,7 @@ public class Queue {
 	 * Removes an element from the front of this queue and returns it.
 	 * 
 	 * @pre | getElements().length > 0
+	 * @post | getElements().length == old(getElements()).length - 1
 	 * @post | result == old(getElements())[0]
 	 * @post | Arrays.equals(getElements(), 0, getElements().length, old(getElements()), 1, old(getElements()).length)
 	 */
