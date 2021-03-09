@@ -33,7 +33,7 @@ public class Queue {
 	 */
 	public void put(Object element) {
 		Object[] newElements = new Object[elements.length + 1];
-		System.arraycopy(element, 0, newElements, 0, elements.length);
+		System.arraycopy(elements, 0, newElements, 0, elements.length);
 		newElements[elements.length] = element;
 		elements = newElements;
 	}
@@ -43,7 +43,7 @@ public class Queue {
 	 * 
 	 * @pre | getElements().length > 0
 	 * @post | result == old(getElements())[0]
-	 * @post | Arrays.equals(getElements(), 0, getElements().length, old(getElements()), 0, old(getElements()).length)
+	 * @post | Arrays.equals(getElements(), 0, getElements().length, old(getElements()), 1, old(getElements()).length)
 	 */
 	public Object take() {
 		Object result = elements[0];
