@@ -1,0 +1,6 @@
+Definieer een onwijzigbare klasse Point met een X- en een Y-coördinaat (int-waarden), en een onwijzigbare klasse Circle die een cirkel met een gegeven centrum (een Point) 
+en straal (een int-waarde). Definieer een abstracte klasse CircleHitTest met een methode containsPoint die een Circle-object en een Point-object als argument neemt, 
+en het resultaat teruggeeft van een test of het punt binnen de cirkel ligt. Definieer twee subklassen PreciseCircleHitTest en FastCircleHitTest van CircleHitTest. 
+De methode containsPoint van PreciseCircleHitTest geeft precies terug of het punt binnen de cirkel ligt; de methode containsPoint van FastCircleHitTest geeft terug of het punt 
+binnen de bounding box van de cirkel ligt, het omgeschreven vierkant waarvan de zijden evenwijdig zijn met de coördinaatassen. Voorzie volledige documentatie van alle klassen, 
+en zorg dat gedragssubtypering gerespecteerd wordt. Handel ongeldige oproepen in PreciseCircleHitTest defensief af en ongeldige oproepen in FastCircleHitTest contractueel.
