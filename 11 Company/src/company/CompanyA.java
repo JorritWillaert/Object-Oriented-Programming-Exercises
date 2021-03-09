@@ -7,7 +7,7 @@ public class CompanyA extends Company{
 	 * @post | result != null
 	 * @post | result.length == 2
 	 */
-	public String[] getLocations() {
+	public String[] getLocations() { //Specification of CompanyA is stricter than Company
 		return new String[] {	System.getenv("LOC2"), 
 								System.getenv("LOC1")};
 	}
