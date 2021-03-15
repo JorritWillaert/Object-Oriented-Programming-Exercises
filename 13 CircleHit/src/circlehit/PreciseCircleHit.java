@@ -6,7 +6,7 @@ package circlehit;
 public class PreciseCircleHit extends CircleHit {
 	
 	/**
-	 * @post | result == (Math.sqrt(Math.pow(center.getX() - point.getX(), 2) + Math.pow(center.getY() - point.getY(), 2)) <= circle.getRadius())
+	 * @post | result == (Math.sqrt(Math.pow(circle.getCenter().getX() - point.getX(), 2) + Math.pow(circle.getCenter().getY() - point.getY(), 2)) <= circle.getRadius())
 	 */
 	public boolean containsPoint(Circle circle, Point point) {
 		Point center = circle.getCenter();
