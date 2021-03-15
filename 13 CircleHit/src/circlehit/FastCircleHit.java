@@ -5,8 +5,11 @@ package circlehit;
  */
 public class FastCircleHit extends CircleHit {
 	
+	//Pre-documentatie is dezelfde als bij de opgeloste methode. De post-conditie is strenger.
 	/**
-	 * @post | result == (Math.abs(circle.getCenter().getX() - point.getX()) >= circle.getRadius() || Math.abs(circle.getCenter().getY() - point.getY()) >= circle.getRadius())
+	 * @pre | circle != null
+	 * @pre | point != null
+	 * @post | result == !(Math.abs(circle.getCenter().getX() - point.getX()) >= circle.getRadius() || Math.abs(circle.getCenter().getY() - point.getY()) >= circle.getRadius())
 	 */
 	public boolean containsPoint(Circle circle, Point point) {
 		Point center = circle.getCenter();
