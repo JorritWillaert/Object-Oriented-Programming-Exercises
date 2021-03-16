@@ -7,8 +7,8 @@ package circlehit;
  */
 public class Circle {
 	
-	private Point center;
-	private int radius;
+	private final Point center; //May also be public because it is final --> Can't be changed
+	private final int radius; //May also be public because it is final --> Can't be changed
 	
 	/**
 	 * Create an instance of a circle with the given center and a radius.

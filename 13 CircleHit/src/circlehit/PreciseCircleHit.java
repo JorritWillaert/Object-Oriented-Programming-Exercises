@@ -20,7 +20,7 @@ public class PreciseCircleHit extends CircleHit {
 			throw new IllegalArgumentException("The given point may not be null.");
 		Point center = circle.getCenter();
 		double distance = Math.sqrt(Math.pow(center.getX() - point.getX(), 2) + Math.pow(center.getY() - point.getY(), 2));
-		if (distance <= circle.getRadius())
+		if (distance < circle.getRadius())
 			return true;
 		return false;
 	}

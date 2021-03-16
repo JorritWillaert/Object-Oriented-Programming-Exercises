@@ -7,8 +7,8 @@ package circlehit;
  */
 public class Point {
 	
-	private int x;
-	private int y;
+	private final int x; //May also be public because it is final --> Can't be changed
+	private final int y; //May also be public because it is final --> Can't be changed
 	
 	/**
 	 * Create an instance of a point with the given x and y coordinates.
