@@ -9,7 +9,7 @@ public class Account {
 	
 	/**
 	 * @pre | value >= 0
-	 * @post | requestMoney(0) == value
+	 * @post | getAmount() == value
 	 */
 	public Account(int value) {
 		this.value = value;
@@ -34,6 +34,13 @@ public class Account {
 	 */
 	public void depositMoney(int depositMoney) {
 		value += depositMoney;
+	}
+	
+	/**
+	 * @basic
+	 */
+	public int getAmount() {
+		return value;
 	}
 	
 	@Override

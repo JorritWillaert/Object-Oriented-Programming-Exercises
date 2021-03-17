@@ -10,7 +10,7 @@ public class CheckingAccount extends Account {
 	/**
 	 * @pre | value >= 0
 	 * @pre | creditLimit >= 0
-	 * @post | requestMoney(0) == value
+	 * @post | getAmount() == value
 	 */
 	public CheckingAccount(int value, int creditLimit) {
 		super(value);
@@ -40,6 +40,6 @@ public class CheckingAccount extends Account {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "credit limit = " + creditLimit;
+		return super.toString() + ", credit limit = " + creditLimit;
 	}
 }

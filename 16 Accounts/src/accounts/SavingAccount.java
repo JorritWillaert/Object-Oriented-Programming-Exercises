@@ -4,7 +4,7 @@ public class SavingAccount extends Account {
 	
 	/**
 	 * @pre | value >= 0
-	 * @post | requestMoney(0) == value
+	 * @post | getAmount() == value
 	 */
 	public SavingAccount(int value) {
 		super(value);
