@@ -2,12 +2,22 @@ package accounts;
 
 public class Account {
 	
+	/**
+	 * @invar | value >= 0
+	 */
 	protected int value; //Protected needed to access this field in Checking & Saving Account
 	
+	/**
+	 * @pre | value >= 0
+	 * @post | requestMoney(0) == value
+	 */
 	public Account(int value) {
 		this.value = value;
 	}
 	
+	/**
+	 * @pre | requestedMoney >= 0
+	 */
 	public int requestMoney(int requestedMoney) {
 		if (requestedMoney <= value) {
 			value -= requestedMoney;
@@ -19,6 +29,9 @@ public class Account {
 		}	
 	}
 	
+	/**
+	 * @pre | depositMoney >= 0
+	 */
 	public void depositMoney(int depositMoney) {
 		value += depositMoney;
 	}
