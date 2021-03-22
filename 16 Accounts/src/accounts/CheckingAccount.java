@@ -8,7 +8,7 @@ public class CheckingAccount extends Account {
 	private int creditLimit;
 	
 	/**
-	 * @pre | value >= 0
+	 * @pre | value >= - creditLimit
 	 * @pre | creditLimit >= 0
 	 * @post | getAmount() == value
 	 */
@@ -20,6 +20,7 @@ public class CheckingAccount extends Account {
 	@Override
 	/**
 	 * @pre | requestedMoney >= 0
+	 * @post | result >= 0
 	 */
 	public int requestMoney(int requestedMoney) {
 		if (requestedMoney <= super.value + creditLimit) {

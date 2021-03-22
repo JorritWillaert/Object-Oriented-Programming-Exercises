@@ -8,7 +8,6 @@ public class Account {
 	protected int value; //Protected needed to access this field in Checking & Saving Account
 	
 	/**
-	 * @pre | value >= 0
 	 * @post | getAmount() == value
 	 */
 	public Account(int value) {
@@ -17,6 +16,7 @@ public class Account {
 	
 	/**
 	 * @pre | requestedMoney >= 0
+	 * @post | result >= 0
 	 */
 	public int requestMoney(int requestedMoney) {
 		if (requestedMoney <= value) {
