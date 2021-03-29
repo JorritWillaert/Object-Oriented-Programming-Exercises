@@ -1,11 +1,20 @@
 package collections;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class HashSet implements Set {
 	
 	//Note: normally increase number of buckets if number of elements increases. But: we skip this.
 	
+	/**
+	 * @invar | buckets != null
+	 * @invar | IntStream.range(0, buckets.length).allMatch(i ->
+	 * 		  | 	buckets[i] != null &&
+	 * 		  |		Arrays.stream(buckets[i].toArray()).allMatch(e -> Math.floorMod(e.hashCode(), buckets.length) == i))
+	 * @representationObject
+	 * @representationObjects
+	 */
 	private Set[] buckets;
 	
 	public HashSet(int capacity) {
