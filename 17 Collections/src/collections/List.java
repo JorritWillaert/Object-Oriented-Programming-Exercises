@@ -23,21 +23,27 @@ public interface List {
 	 * @inspects | this
 	 * @post | result == toArray().length
 	 */
-	public int size();
+	public default int size() {
+		return toArray().length;
+	}
 	
 	/**
 	 * @inspects | this
 	 * @pre | 0 <= index && index < size()
 	 * @post | result == toArray()[index]
 	 */
-	public Object get(int index);
+	public default Object get(int index) {
+		return toArray()[index];
+	}
 	
 	/**
 	 * @inspects | this
 	 * @pre | object != null
 	 * @post | result == Arrays.stream(toArray()).anyMatch(e -> e.equals(object))
 	 */
-	public boolean contains(Object object);
+	public default boolean contains(Object object) {
+		return Arrays.stream(toArray()).anyMatch(e -> e.equals(object));
+	}
 	
 	/**
 	 * @mutates | this
