@@ -4,7 +4,15 @@ import java.util.Arrays;
 
 public class ArrayList implements List {
 	
+	/**
+	 * @invar | elements != null
+	 * @invar | 0 <= size
+	 * @invar | size <= elements.length
+	 */
 	private int size;
+	/**
+	 * @representationObject
+	 */
 	private Object[] elements;
 	
 	/**
