@@ -1,36 +1,49 @@
 package accounts;
 
+/**
+ * @invar | 0 <= getCreditLimit()
+ * @invar | - getCreditLimit() <= getAmount()
+ */
 public class CheckingAccount extends Account {
 	
 	/**
 	 * @invar | creditLimit >= 0
+	 * @invar | -creditLimit <= getAmount()
 	 */
 	private int creditLimit;
 	
 	/**
-	 * @pre | value >= - creditLimit
 	 * @pre | creditLimit >= 0
-	 * @post | getAmount() == value
+	 * @post | getAmount() == 0
+	 * @post | getCreditLimit() == creditLimit
 	 */
-	public CheckingAccount(int value, int creditLimit) {
-		super(value);
+	public CheckingAccount(int creditLimit) {
 		this.creditLimit = creditLimit;
+	}
+	
+	/**
+	 * @basic
+	 */
+	public int getCreditLimit() {
+		return creditLimit;
 	}
 	
 	@Override
 	/**
+	 * @mutates | this
 	 * @pre | requestedMoney >= 0
-	 * @post | result >= 0
+	 * @post | getAmount() == old(getAmount()) - result
+	 * @post | requestedMoney <= old(getAmount()) + getCreditLimit() ?
+	 * 		 |		 result == requestedMoney
+	 * 		 | : 	 result == old(getAmount()) + getCreditLimit()
 	 */
 	public int requestMoney(int requestedMoney) {
-		if (requestedMoney <= super.value + creditLimit) {
-			value -= requestedMoney;
-			return requestedMoney;
-		} else {
-			int valueToReturn = value + creditLimit;
-			value = - creditLimit;
-			return valueToReturn;
-		}	
+		int oldValue = getAmount();
+		if (requestedMoney > getAmount() + creditLimit)
+			setValue(-creditLimit);
+		else
+			setValue(getAmount() - requestedMoney);;
+		return oldValue - getAmount();	
 	}
 	
 	@Override

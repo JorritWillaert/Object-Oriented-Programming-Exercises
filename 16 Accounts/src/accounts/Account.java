@@ -1,36 +1,35 @@
 package accounts;
 
-public class Account {
+public abstract class Account {
+	
+	private int value;
 	
 	/**
-	 * @invar | value >= 0
+	 * @post | getAmount() == 0
 	 */
-	protected int value; //Protected needed to access this field in Checking & Saving Account
+	protected Account() {}
 	
 	/**
-	 * @post | getAmount() == value
+	 * @mutates | this
+	 * @post | getAmount() == newValue
 	 */
-	public Account(int value) {
-		this.value = value;
+	protected void setValue(int newValue) {
+		this.value = newValue;
 	}
 	
 	/**
-	 * @pre | requestedMoney >= 0
-	 * @post | result >= 0
+	 * @pre | 0 <= requestedMoney
+	 * @mutates | this
+	 * @post | 0 <= result
+	 * @post | result <= requestedMoney
+	 * @post | getAmount() == old(getAmount()) - result
 	 */
-	public int requestMoney(int requestedMoney) {
-		if (requestedMoney <= value) {
-			value -= requestedMoney;
-			return requestedMoney;
-		} else {
-			int valueToReturn = value;
-			value = 0;
-			return valueToReturn;
-		}	
-	}
+	public abstract int requestMoney(int requestedMoney);
 	
 	/**
+	 * @mutates | this
 	 * @pre | depositMoney >= 0
+	 * @post | getAmount() == old(getAmount()) + depositMoney
 	 */
 	public void depositMoney(int depositMoney) {
 		value += depositMoney;

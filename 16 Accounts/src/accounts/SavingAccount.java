@@ -1,17 +1,20 @@
 package accounts;
 
+/**
+ * @invar | 0 <= getAmount()
+ */
 public class SavingAccount extends Account {
 	
 	/**
-	 * @pre | value >= 0
-	 * @post | getAmount() == value
+	 * @post | getAmount() == 0
 	 */
-	public SavingAccount(int value) {
-		super(value);
-	}
+	public SavingAccount() {}
 	
 	@Override
 	/**
+	 * @mutates | this
+	 * @pre | requestedMoney >= 0
+	 * @post | getAmount() == old(getAmount())
 	 * @post | result == 0
 	 */
 	public int requestMoney(int requestedMoney) {

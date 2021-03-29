@@ -8,8 +8,10 @@ class AccountTest {
 
 	@Test
 	void test() {
-		CheckingAccount myCheckingAccount = new CheckingAccount(20, 50);
-		SavingAccount mySavingAccount = new SavingAccount(100);
+		CheckingAccount myCheckingAccount = new CheckingAccount(50);
+		SavingAccount mySavingAccount = new SavingAccount();
+		myCheckingAccount.depositMoney(20);
+		mySavingAccount.depositMoney(100);
 		
 		assertEquals(20, myCheckingAccount.getAmount());
 		assertEquals(100, mySavingAccount.getAmount());
@@ -27,13 +29,16 @@ class AccountTest {
 		assertEquals(10, myCheckingAccount.getAmount());
 		assertEquals(140, mySavingAccount.getAmount());
 		
-		CheckingAccount mySecondCheckingAccount = new CheckingAccount(10, 50);
-		CheckingAccount myThirdCheckingAccount = new CheckingAccount(10, 60);
+		CheckingAccount mySecondCheckingAccount = new CheckingAccount(50);
+		mySecondCheckingAccount.depositMoney(10);
+		CheckingAccount myThirdCheckingAccount = new CheckingAccount(60);
+		myThirdCheckingAccount.depositMoney(20);
 		
 		assertTrue(myCheckingAccount.equals(mySecondCheckingAccount));
 		assertFalse(myCheckingAccount.equals(myThirdCheckingAccount));
 	
-		SavingAccount mySecondSavingAccount = new SavingAccount(140);
+		SavingAccount mySecondSavingAccount = new SavingAccount();
+		mySecondSavingAccount.depositMoney(140);
 		assertTrue(mySavingAccount.equals(mySecondSavingAccount));
 		
 		assertEquals("Amount of money on account = 10, credit limit = 50", myCheckingAccount.toString());
