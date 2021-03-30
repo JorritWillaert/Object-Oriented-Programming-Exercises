@@ -1,0 +1,4 @@
+Ontwikkel een abstractie die toelaat om grafen bestaande uit personen en de ... is vader van ...-relatie tussen personen op te slaan en te manipuleren. 
+Zorg dat de abstractie goed geëncapsuleerd is en dat de consistentie van de bidirectionele associatie te allen tijde bewaard blijft. 
+Laat de klant toe de vader van een persoon, alsook de verzameling van personen waarvan die persoon de vader is, op te vragen, en een is-vader-van-verbinding 
+toe te voegen en te verwijderen tussen twee personen.
