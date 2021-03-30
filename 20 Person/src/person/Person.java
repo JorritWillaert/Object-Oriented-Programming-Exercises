@@ -6,17 +6,17 @@ import logicalcollections.*; //https://github.com/btj/logicalcollections
 
 /**
  * @invar | getChildren() != null
+ * @invar | getFather() == null || getFather().getChildren().contains(this)
  * @invar | getChildren().stream().allMatch(c -> c != null)
- * @invar | getChildren().stream().allMatch(c -> c.getFather() == getFather())
- * @invar | getChildren().stream().allMatch(c -> c.getChildren().contains(this))
+ * @invar | getChildren().stream().allMatch(c -> c.getFather() == this)
  */
 public class Person {
 
 	/**
 	 * @invar | children != null
+	 * @invar | father == null || father.children.contains(this)
 	 * @invar | children.stream().allMatch(c -> c != null)
-	 * @invar | children.stream().allMatch(c -> c.getFather() == father)
-	 * @invar | children.stream().allMatch(c -> c.getChildren().contains(this))
+	 * @invar | children.stream().allMatch(c -> c.getFather() == this)
 	 * 
 	 * @peerObject
 	 */
@@ -43,6 +43,7 @@ public class Person {
 	
 	/**
 	 * @basic
+	 * @creates | result
 	 * @peerObjects
 	 */
 	public Set<Person> getChildren() {
@@ -63,8 +64,9 @@ public class Person {
 	/**
 	 * @mutates | this, child
 	 * @pre | child != null
+	 * @pre | child.getFather() == null
 	 * @post | child.getFather() == this
-	 * @post | getChildren().equals(LogicalSet.plus(old(getChildren()), this))
+	 * @post | getChildren().equals(LogicalSet.plus(old(getChildren()), child))
 	 */
 	public void addChild(Person child) {
 		child.father = this;
@@ -73,8 +75,10 @@ public class Person {
 	
 	/**
 	 * @mutates | this
+	 * @pre | getFather() != null
+	 * @pre | getFather().getChildren().contains(this)
 	 * @post | getFather() == null
-	 * @post | old(getFather()).getChildren().equals(LogicalSet.minus(old(getFather().getChildren()), this))
+	 * @post | old(getFather()).getChildren().equals(LogicalSet.minus(old(getFather()).getChildren(), this))
 	 */
 	public void removeFather() {
 		father.children.remove(this);
@@ -85,6 +89,7 @@ public class Person {
 	 * @mutates | this
 	 * @pre | child != null
 	 * @pre | getChildren().contains(child)
+	 * @pre | child.getFather() == this
 	 * @post | child.getFather() == null
 	 * @post | getChildren().equals(LogicalSet.minus(old(getChildren()), child))
 	 */
@@ -97,7 +102,7 @@ public class Person {
 	 * @pre | getFather() != null
 	 * @post | result.equals(getFather().getChildren())
 	 */
-	public Set<Person> getSiblings() {
+	public Set<Person> getSiblingsInclusiveMe() {
 		return Set.copyOf(father.getChildren());
 	}
 	
