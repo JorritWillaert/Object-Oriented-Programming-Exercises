@@ -54,7 +54,7 @@ public class City {
 	 * @mutates | this
 	 * @pre | getConnectedCities().contains(other)
 	 * @post | getConnectedCities().equals(LogicalSet.minus(old(getConnectedCities()), other))
-	 * @post | getConnectedCities().equals(LogicalSet.minus(old(other.getConnectedCities()), this))
+	 * @post | other.getConnectedCities().equals(LogicalSet.minus(old(other.getConnectedCities()), this))
 	 */
 	public void registerRoadRemoved(City other) {
 		connectedCities.remove(other);
