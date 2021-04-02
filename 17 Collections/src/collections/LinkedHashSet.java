@@ -5,6 +5,8 @@ import java.util.stream.IntStream;
 
 public class LinkedHashSet implements Set {
 	
+	//Note: we stated that the map contains all nodes of our linked list & we stated that every node of our linked list is in our map!
+	
 	private class Node {
 		/**
 		 * @invar | (element == null) == (this == sentinel)
@@ -12,23 +14,42 @@ public class LinkedHashSet implements Set {
 		 * @invar | next != null
 		 * @invar | this == next.previous
 		 * @invar | this == previous.next
+		 * @invar | this == sentinel || map.get(element) == this
+		 * 
+		 * @peerObject
 		 */
 		private Node previous;
-		private Node next;
 		/**
 		 * @peerObject
 		 */
+		private Node next;
 		private Object element;
+	}
+	
+	private boolean isInLinkedList(Node node) {
+		Node n = sentinel.next;
+		while (n != sentinel) {
+			if (n == node)
+				return true;
+			n = n.next;
+		}
+		return false;
 	}
 
 	/**
 	 * @invar | sentinel != null
-	 */
-	private HashMap map;
-	/**
 	 * @representationObject
 	 */
 	private Node sentinel;
+	/**
+	 * @invar | map != null
+	 * @invar | Arrays.stream(map.entrySet().toArray()).allMatch(e -> 
+	 * 		  |		((Map.Entry)e).getValue() instanceof Node &&
+	 * 		  | 	isInLinkedList((Node)((Map.Entry)e).getValue()) &&
+	 * 		  |		((Node)((Map.Entry)e).getValue()).element == ((Map.Entry)e).getKey())
+	 * @representationObject
+	 */
+	private HashMap map;
 	
 	public LinkedHashSet() {
 		sentinel = new Node();
