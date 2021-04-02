@@ -16,6 +16,15 @@ public class HashMap implements Map {
 	 */
 	private Map[] buckets;
 	
+	/**
+	 * @post | size() == 0
+	 */
+	public HashMap() {
+		buckets = new Map[10];
+		for (int i = 0; i < buckets.length; i++)
+			buckets[i] = new ArrayMap();
+	}
+	
 	private Map getBucket(Object key) {
 		return buckets[Math.floorMod(key.hashCode(), buckets.length)];
 	}
