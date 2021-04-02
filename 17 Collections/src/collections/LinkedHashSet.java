@@ -3,61 +3,85 @@ package collections;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+import collections.LinkedList.Node;
+
 public class LinkedHashSet implements Set {
 	
-	//Note: normally increase number of buckets if number of elements increases. But: we skip this.
-	
-	//TODO! This is a copy!
-	
+	private class Node {
+		/**
+		 * @invar | (element == null) == (this == sentinel)
+		 * @invar | previous != null
+		 * @invar | next != null
+		 * @invar | this == next.previous
+		 * @invar | this == previous.next
+		 */
+		private Node previous;
+		private Node next;
+		/**
+		 * @peerObject
+		 */
+		private Object element;
+	}
+
 	/**
-	 * @invar | buckets != null
-	 * @invar | IntStream.range(0, buckets.length).allMatch(i ->
-	 * 		  | 	buckets[i] != null &&
-	 * 		  |		Arrays.stream(buckets[i].toArray()).allMatch(e -> Math.floorMod(e.hashCode(), buckets.length) == i))
-	 * @representationObject
-	 * @representationObjects
+	 * @invar | sentinel != null
 	 */
-	private Set[] buckets;
+	private HashMap map;
+	/**
+	 * @representationObject
+	 */
+	private Node sentinel;
 	
-	public LinkedHashSet(int capacity) {
-		buckets = new Set[capacity];
-		for (int i = 0; i < buckets.length; i++)
-			buckets[i] = new ArraySet();
+	public LinkedHashSet() {
+		sentinel = new Node();
+		sentinel.previous = sentinel;
+		sentinel.next = sentinel;
+		map = new HashMap();
 	}
 	
-	private Set getBucket(Object object) {
-		int hashcode = object.hashCode();
-		return buckets[Math.floorMod(hashcode, buckets.length)];
-	}
-	
-	public int size() {
-		return Arrays.stream(buckets).mapToInt(bucket -> bucket.size()).sum();
-	}
-	
+	@Override
 	public Object[] toArray() {
-		//return Arrays.stream(buckets).flatMap(bucket -> Arrays.stream(toArray())).toArray();
-		
-		//Alternative implementation
-		ArrayList result = new ArrayList();
-		for (int i = 0; i < buckets.length; i++) {
-			Object[] bucketContents = buckets[i].toArray();
-			for (int j = 0; j < buckets[j].size(); j++) {
-				result.add(bucketContents[j]);
-			}
+		Node node = sentinel.next;
+		Object[] array = new Object[map.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = node.element;
+			node = node.next;
 		}
-		return result.toArray();
+		return array;
 	}
 	
-	public boolean contains(Object object) {
-		return getBucket(object).contains(object);
-	}
-	
+	@Override
 	public void add(Object object) {
-		getBucket(object).add(object);
+		if (!map.containsKey(object)) {
+			Node node = new Node();
+			Node prevLast = sentinel.previous;
+			node.element = object;
+			node.next = sentinel;
+			node.previous = prevLast;
+			prevLast.next = node;
+			sentinel.previous = node;
+			map.put(object, node);
+		}
 	}
 	
+	@Override
+	public boolean contains(Object object) {
+		return map.containsKey(object);
+	}
+	
+	@Override
 	public void remove(Object object) {
-		getBucket(object).remove(object);
+		Node node = (Node)map.get(object);
+		if (node != null) {
+			map.remove(object);
+			node.previous.next = node.next;
+			node.next.previous = node.previous;
+		}
+	}
+	
+	@Override
+	public int size() {
+		return map.size();
 	}
 	
 }
