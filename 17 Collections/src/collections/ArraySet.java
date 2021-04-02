@@ -38,7 +38,6 @@ public class ArraySet implements Set{
 		for (int i = 0; i < elements.size(); i++)
 			if (elements.get(i).equals(object)) {
 				elements.remove(i);
-				elements.remove(i);
 				return;
 			}
 	}
