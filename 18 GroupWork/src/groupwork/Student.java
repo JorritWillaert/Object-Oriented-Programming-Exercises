@@ -25,13 +25,13 @@ public class Student {
 	}
 	
 	/**
-	 * @mutates | this
+	 * @mutates | this, other
 	 * @throws IllegalArgumentException | other == null
 	 * @throws IllegalArgumentException | getTeammate() != null
 	 * @throws IllegalArgumentException | other.getTeammate() != null
 	 * @post | getTeammate() == other
 	 */
-	public void setTeammate(Student other) { //@mutates | this --> Only this, since teammate is a peerobject: you may change that
+	public void setTeammate(Student other) { //@mutates | this, other --> this and other not yet in same peer group.
 		if (other == null)
 			throw new IllegalArgumentException("Teammate may not be null.");
 		if (this.teammate != null)
@@ -48,7 +48,7 @@ public class Student {
 	 * @post | getTeammate() == null
 	 * @post | old(getTeammate()).getTeammate() == null
 	 */
-	public void clearTeammate() {
+	public void clearTeammate() { //@mutates | this --> Only this, because this and other are in the same peer group.
 		if (teammate == null)
 			throw new IllegalArgumentException("No teammate assigned.");
 		teammate.teammate = null;
