@@ -1,5 +1,6 @@
 package examsandrooms;
 
+import java.util.HashSet;
 import java.util.Set;
 import logicalcollections.LogicalSet;
 
@@ -7,6 +8,14 @@ import logicalcollections.LogicalSet;
  * Represents an exam in an exam-room composition graph.
  */
 public class Exam {
+	
+	/**
+	 * @invar | rooms != null
+	 * 
+	 * @peerObjects
+	 * @representationObject
+	 */
+	Set<Room> rooms = new HashSet<>();
 	
 	/**
 	 * Create a new exam.
@@ -24,7 +33,7 @@ public class Exam {
 	 * @post | result != null
 	 */
 	public Set<Room> getRooms() {
-		
+		return Set.copyOf(rooms);
 	}
 	
 	/**
@@ -33,13 +42,18 @@ public class Exam {
 	 * @throws IllegalArgumentException if the given room is null.
 	 * 		| room == null
 	 * 
-	 * @mutates | this
+	 * @mutates_properties | getRooms(), room.getExams()
 	 * 
 	 * @post The given room is added to the set of rooms where this exam takes place. The other rooms are not changed.
-	 * 		| getRooms() == LogicalSet.plus(old(getRooms()), room)
+	 * 		| getRooms().equals(LogicalSet.plus(old(getRooms()), room))
+	 * @post This exam is added to the given room. The other exams are not changed.
+	 * 		| room.getExams().equals(LogicalSet.plus(old(room.getExams()), this))
 	 */
 	public void addRoom(Room room) {
-		
+		if (room == null)
+			throw new IllegalArgumentException("Room is null.");
+		rooms.add(room);
+		room.exams.add(this);
 	}
 	
 	/**
@@ -50,13 +64,20 @@ public class Exam {
 	 * @throws IllegalStateException if the given room was not assigned for this exam
 	 * 		| !(getRooms().contains(room))
 	 * 
-	 * @mutates | this
+	 * @mutates_properties | getRooms(), room.getExams()
 	 * 
 	 * @post The given room is removed from the set of rooms where this exam takes place. The other rooms are not changed.
-	 * 		| getRooms() == LogicalSet.minus(old(getRooms()), room)
+	 * 		| getRooms().equals(LogicalSet.minus(old(getRooms()), room))
+	 * @post This exam is removed from the given room. The other exams are not changed.
+	 * 		| room.getExams().equals(LogicalSet.minus(old(room.getExams()), this))
 	 */
 	public void removeRoom(Room room) {
-		
+		if (room == null)
+			throw new IllegalArgumentException("Room is null.");
+		if (!(rooms.contains(room)))
+			throw new IllegalStateException("The room to be removed is not present in the planned rooms.");
+		rooms.remove(room);
+		room.exams.remove(this);
 	}
 
 }
