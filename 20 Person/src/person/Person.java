@@ -28,7 +28,7 @@ public class Person {
 	 * @peerObjects
 	 */
 	private final Set<Person> children = new HashSet<>();
-	
+	 
 	//@mutates_properties --> Everything stays unchanged from all the peerobjects. Only the children of father change.
 	/**
 	 * Initializes this person to have the given father.
