@@ -79,8 +79,10 @@ public class Room {
 	 * 
 	 * @throws IllegalArgumentException if the given exam is null.
 	 * 		| exam == null
-	 * @throws IllegalStateException if the given room was not assigned for this exam
+	 * @throws IllegalStateException if the given room was not assigned for this exam.
 	 * 		| !(getExams().contains(exam))
+	 * @throws IllegalStateException if the corresponding rooms of the given exam does not contain this room.
+	 * 		| !(exam.getRooms().contains(this))
 	 * 
 	 * @mutates_properties | getExams(), exam.getRooms()
 	 * 
@@ -94,6 +96,8 @@ public class Room {
 			throw new IllegalArgumentException("Exam is null.");
 		if (!(exams.contains(exam)))
 			throw new IllegalStateException("The exam to be removed is not present in the scheduled exams.");
+		if (!(exam.getRooms().contains(this)))
+			throw new IllegalStateException("The corresponding rooms of the given exam does not contain this room.");
 		exams.remove(exam);
 		exam.removeRoomOnly(this);
 	}
@@ -103,7 +107,7 @@ public class Room {
 	 * 
 	 * @throws IllegalArgumentException if the given exam is null.
 	 * 		| exam == null
-	 * @throws IllegalStateException if the given room was not assigned for this exam
+	 * @throws IllegalStateException if the given room was not assigned for this exam.
 	 * 		| !(getExams().contains(exam))
 	 * 
 	 * @mutates_properties | getExams()
