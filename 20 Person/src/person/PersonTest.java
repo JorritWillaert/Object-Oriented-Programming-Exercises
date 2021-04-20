@@ -10,12 +10,12 @@ class PersonTest {
 
 	@Test
 	void test() {
-		Person albert = new Person();
-		Person laurent = new Person();
-		Person filip = new Person();
-		Person elisabeth = new Person();
+		Person albert = new Person(null);
+		Person laurent = new Person(null);
+		Person filip = new Person(null);
+		Person elisabeth = new Person(filip);
 		
-		assertEquals(Set.of(), filip.getChildren());
+		assertEquals(Set.of(), albert.getChildren());
 		assertEquals(null, filip.getFather());
 		
 		albert.addChild(laurent);
@@ -26,7 +26,6 @@ class PersonTest {
 		assertEquals(albert, filip.getFather());
 		assertEquals(Set.of(laurent, filip), albert.getChildren());
 		
-		filip.addChild(elisabeth);
 		assertEquals(filip, elisabeth.getFather());
 		assertEquals(Set.of(elisabeth), filip.getChildren());
 		

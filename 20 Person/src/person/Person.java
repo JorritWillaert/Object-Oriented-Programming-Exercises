@@ -5,6 +5,8 @@ import java.util.Set;
 import logicalcollections.*; //https://github.com/btj/logicalcollections
 
 /**
+ * Each instance of this class represents a person in an is-father-of graph.
+ * 
  * @invar | getChildren() != null
  * @invar | getFather() == null || getFather().getChildren().contains(this)
  * @invar | getChildren().stream().allMatch(c -> c != null)
@@ -16,7 +18,7 @@ public class Person {
 	 * @invar | children != null
 	 * @invar | father == null || father.children.contains(this)
 	 * @invar | children.stream().allMatch(c -> c != null)
-	 * @invar | children.stream().allMatch(c -> c.getFather() == this)
+	 * @invar | children.stream().allMatch(c -> c.father == this)
 	 * 
 	 * @peerObject
 	 */
@@ -27,11 +29,19 @@ public class Person {
 	 */
 	private final Set<Person> children = new HashSet<>();
 	
+	//@mutates_properties --> Everything stays unchanged from all the peerobjects. Only the children of father change.
 	/**
-	 * @post | getFather() == null
-	 * @post | getChildren().isEmpty()
+	 * Initializes this person to have the given father.
+	 * 
+	 * @mutates_properties | father.getChildren()
+	 * @post | getFather() == father
+	 * @post | father == null || father.getChildren().equals(LogicalSet.plus(old(father.getChildren()), this))
 	 */
-	public Person() {}
+	public Person(Person father) {
+		this.father = father;
+		if (father != null)
+			father.children.add(this);
+	}
 	
 	/**
 	 * @basic
