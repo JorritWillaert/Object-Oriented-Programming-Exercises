@@ -16,7 +16,7 @@ public class Room {
 	 * @peerObjects
 	 * @representationObject
 	 */
-	Set<Exam> exams = new HashSet<>();
+	private Set<Exam> exams = new HashSet<>();
 	
 	/**
 	 * Create a new room.
@@ -54,7 +54,24 @@ public class Room {
 		if (exam == null)
 			throw new IllegalArgumentException("Exam is null.");
 		exams.add(exam);
-		exam.rooms.add(this);
+		exam.addRoomOnly(this);
+	}
+	
+	/**
+	 * Just add a given exam, don't bother about consistency.
+	 * 
+	 * @throws IllegalArgumentException if the given exam is null.
+	 * 		| exam == null
+	 * 
+	 * @mutates_properties | getExams()
+	 * 
+	 * @post The given exam is added to the set of exams that will take place in this room. The other exams are not changed.
+	 * 		| getExams().equals(LogicalSet.plus(old(getExams()), exam))
+	 */
+	void addExamOnly(Exam exam) {
+		if (exam == null)
+			throw new IllegalArgumentException("Exam is null.");
+		exams.add(exam);
 	}
 	
 	/**
@@ -78,7 +95,28 @@ public class Room {
 		if (!(exams.contains(exam)))
 			throw new IllegalStateException("The exam to be removed is not present in the scheduled exams.");
 		exams.remove(exam);
-		exam.rooms.remove(this);
+		exam.removeRoomOnly(this);
+	}
+	
+	/**
+	 * Just remove a given exam, don't bother about consistency.
+	 * 
+	 * @throws IllegalArgumentException if the given exam is null.
+	 * 		| exam == null
+	 * @throws IllegalStateException if the given room was not assigned for this exam
+	 * 		| !(getExams().contains(exam))
+	 * 
+	 * @mutates_properties | getExams()
+	 * 
+	 * @post The given room is removed from the set of rooms where this exam takes place. The other rooms are not changed.
+	 * 		| getExams().equals(LogicalSet.minus(old(getExams()), exam))
+	 */
+	void removeExamOnly(Exam exam) {
+		if (exam == null)
+			throw new IllegalArgumentException("Exam is null.");
+		if (!(exams.contains(exam)))
+			throw new IllegalStateException("The exam to be removed is not present in the scheduled exams.");
+		exams.remove(exam);
 	}
 
 }
