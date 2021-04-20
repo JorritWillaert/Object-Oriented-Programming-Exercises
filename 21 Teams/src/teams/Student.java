@@ -12,20 +12,33 @@ public class Student {
 	
 	//Note: if you write: @invar | team == null || team.members.contains(this)	--> Possible null pointer exception (invariant in team (members != null) may be checked later)
 	//We use the convention that we begin by checking all first invariants, then all seconds, ... --> Add dummy invariant
-	/**
-	 * @invar | true //Phase 1
-	 * @invar | team == null || team.members.contains(this) //Phase 2
-	 * 
-	 * @peerObject
-	 */
-	Team team; //No keyword = package-accessible -> So, change client to different package
+	//New: most invariants to method getTeamInternal(). Best to see previous commits for the usage of phase 1 & 2
+	//Now: phases not longer needed. Class invariants are always checked before package invariants
+	private Team team;
+	//Earlier: no keyword = package-accessible -> So, change client to different package
+	//Now: Nested abstractions
 	
+	/**
+	 * Initializes this object to represent a student that is not in a team.
+	 * 
+	 * @mutates | this
+	 * @post | getTeam() == null
+	 */
 	public Student() {}
+	
+	/**
+	 * @invar | getTeamInternal() == null || getTeamInternal().getMembersInternal().contains(this)
+	 * 
+	 * @peerObject (package-level)
+	 */
+	Team getTeamInternal() {
+		return team;
+	}
 	
 	/**
 	 * Returns this student's team, or null if the student is not in a team.
 	 * 
-	 * @peerObject
+	 * @peerObject (package-level)
 	 */
 	public Team getTeam() {
 		return team;
@@ -50,7 +63,7 @@ public class Student {
 		if (this.team != null)
 			throw new IllegalArgumentException("Student already in team");
 		this.team = team;
-		team.members.add(this);
+		team.addStudent(this);
 	}
 	
 	/**
@@ -69,7 +82,7 @@ public class Student {
 	public void leaveTeam() {
 		if (team == null)
 			throw new IllegalStateException("Not in a team");
-		team.members.remove(this);
+		team.removeStudent(this);
 		team = null;
 	}
 	
