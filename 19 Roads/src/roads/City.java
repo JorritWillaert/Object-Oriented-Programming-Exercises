@@ -37,9 +37,8 @@ public class City {
 		return Set.copyOf(connectedCities);
 	}
 	
-	//@mutates | this, other --> This and other not in the same peergroup yet. Mutates clause to both.
 	/**
-	 * @mutates | this, other
+	 * @mutates_properties | this.getConnectedCities(), other.getConnectedCities()
 	 * @pre | other != null
 	 * @post | getConnectedCities().equals(LogicalSet.plus(old(getConnectedCities()), other))
 	 * @post | other.getConnectedCities().equals(LogicalSet.plus(old(other.getConnectedCities()), this))
@@ -49,9 +48,8 @@ public class City {
 		other.connectedCities.add(this);
 	}
 	
-	//@mutates | this --> This and other in the same peergroup. Mutates clause only to this!
 	/**
-	 * @mutates | this
+	 * @mutates_properties | this.getConnectedCities(), other.getConnectedCities()
 	 * @pre | getConnectedCities().contains(other)
 	 * @post | getConnectedCities().equals(LogicalSet.minus(old(getConnectedCities()), other))
 	 * @post | other.getConnectedCities().equals(LogicalSet.minus(old(other.getConnectedCities()), this))
