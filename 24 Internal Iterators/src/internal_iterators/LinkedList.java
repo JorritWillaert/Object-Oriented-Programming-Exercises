@@ -9,4 +9,9 @@ public class LinkedList {
 	
 	public Node firstNode;
 	
+	public void forEach(Consumer consumer) {
+		for (Node node = firstNode; node != null; node = node.next)
+			consumer.accept(node.value);
+	}
+	
 }
