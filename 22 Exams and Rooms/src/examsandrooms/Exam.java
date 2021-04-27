@@ -14,12 +14,11 @@ public class Exam {
 	
 	/**
 	 * @invar | rooms != null
-	 * @invar | rooms.stream().allMatch(room -> room != null && room.getExams().contains(this))
+	 * @invar | rooms.stream().allMatch(room -> room != null)
 	 * 
-	 * @peerObjects
 	 * @representationObject
 	 */
-	private Set<Room> rooms = new HashSet<>();
+	private Set<Room> rooms = new HashSet<Room>();
 	
 	/**
 	 * Create a new exam.
@@ -27,6 +26,19 @@ public class Exam {
 	 * @post | getRooms().isEmpty()
 	 */
 	public Exam() {}
+	
+	/**
+	 * @invar | getRoomsInternal().stream().allMatch(room -> room.getExamsInternal().contains(this))
+	 * 
+	 * @creates | result
+	 * @post | result != null
+	 * @post | result.stream().allMatch(room -> room != null)
+	 * 
+	 * @peerObjects (package-level)
+	 */
+	Set<Room> getRoomsInternal() {
+		return Set.copyOf(rooms);
+	}
 	
 	/**
 	 * Return all the rooms where this exam takes place.
@@ -56,24 +68,7 @@ public class Exam {
 		if (room == null)
 			throw new IllegalArgumentException("Room is null.");
 		rooms.add(room);
-		room.addExamOnly(this);
-	}
-	
-	/**
-	 * Just add a given room, don't bother about consistency.
-	 * 
-	 * @throws IllegalArgumentException if the given room is null.
-	 * 		| room == null
-	 * 
-	 * @mutates_properties | getRooms()
-	 * 
-	 * @post The given room is added to the set of rooms where this exam takes place. The other rooms are not changed.
-	 * 		| getRooms().equals(LogicalSet.plus(old(getRooms()), room))
-	 */
-	void addRoomOnly(Room room) {
-		if (room == null)
-			throw new IllegalArgumentException("Room is null.");
-		rooms.add(room);
+		room.addExam(this);
 	}
 	
 	/**
@@ -83,8 +78,6 @@ public class Exam {
 	 * 		| room == null
 	 * @throws IllegalStateException if the given room was not assigned for this exam.
 	 * 		| !(getRooms().contains(room))
-	 * @throws IllegalStateException if the corresponding exam of the given room does contain this exam.
-	 * 		| !(room.getExams().contains(this))
 	 * 
 	 * @mutates_properties | getRooms(), room.getExams()
 	 * 
@@ -98,31 +91,8 @@ public class Exam {
 			throw new IllegalArgumentException("Room is null.");
 		if (!(rooms.contains(room)))
 			throw new IllegalStateException("The room to be removed is not present in the planned rooms.");
-		if (!(room.getExams().contains(this)))
-			throw new IllegalStateException("The corresponding exam of the given room does contain this exam.");
 		rooms.remove(room);
-		room.removeExamOnly(this);
-	}
-	
-	/**
-	 * Just remove a given room, don't bother about consistency.
-	 * 
-	 * @throws IllegalArgumentException if the given room is null.
-	 * 		| room == null
-	 * @throws IllegalStateException if the given room was not assigned for this exam.
-	 * 		| !(getRooms().contains(room))
-	 * 
-	 * @mutates_properties | getRooms()
-	 * 
-	 * @post The given room is removed from the set of rooms where this exam takes place. The other rooms are not changed.
-	 * 		| getRooms().equals(LogicalSet.minus(old(getRooms()), room))
-	 */
-	void removeRoomOnly(Room room) {
-		if (room == null)
-			throw new IllegalArgumentException("Room is null.");
-		if (!(rooms.contains(room)))
-			throw new IllegalStateException("The room to be removed is not present in the planned rooms.");
-		rooms.remove(room);
+		room.removeExam(this);
 	}
 
 }

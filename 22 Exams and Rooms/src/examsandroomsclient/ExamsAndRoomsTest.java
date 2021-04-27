@@ -22,7 +22,7 @@ class ExamsAndRoomsTest {
 		Room room2 = new Room();
 		
 		exam1.addRoom(room1);
-		room2.addExam(exam2);
+		exam2.addRoom(room2);
 		
 		assertEquals(Set.of(room1), exam1.getRooms());
 		assertEquals(Set.of(room2), exam2.getRooms());
