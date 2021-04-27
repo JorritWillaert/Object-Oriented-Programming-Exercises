@@ -1,5 +1,7 @@
 package iterators;
 
+import java.util.Iterator;
+
 public class LinkedListIterator implements Iterator {
 
 	public LinkedList.Node node;

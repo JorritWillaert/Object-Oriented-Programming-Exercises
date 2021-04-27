@@ -1,5 +1,7 @@
 package iterators;
 
+import java.util.Iterator;
+
 public class ArrayListIterator implements Iterator {
 	
 	public ArrayList arrayList;

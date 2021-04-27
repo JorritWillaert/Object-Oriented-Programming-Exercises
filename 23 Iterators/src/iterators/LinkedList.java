@@ -1,6 +1,8 @@
 package iterators;
 
-public class LinkedList {
+import java.util.Iterator;
+
+public class LinkedList implements Iterable {
 
 	public static class Node {
 		public Object value;
