@@ -6,11 +6,15 @@ import logicalcollections.LogicalSet;
 
 /**
  * Represents an exam in an exam-room composition graph.
+ * 
+ * @invar | getRooms() != null
+ * @invar | getRooms().stream().allMatch(room -> room != null && room.getExams().contains(this))
  */
 public class Exam {
 	
 	/**
 	 * @invar | rooms != null
+	 * @invar | rooms.stream().allMatch(room -> room != null && room.getExams().contains(this))
 	 * 
 	 * @peerObjects
 	 * @representationObject
@@ -20,17 +24,16 @@ public class Exam {
 	/**
 	 * Create a new exam.
 	 * 
-	 * @post | getRooms().equals(Set.of())
+	 * @post | getRooms().isEmpty()
 	 */
 	public Exam() {}
 	
 	/**
 	 * Return all the rooms where this exam takes place.
 	 * 
+	 * @creates | result
 	 * @basic
 	 * @peerObjects
-	 * 
-	 * @post | result != null
 	 */
 	public Set<Room> getRooms() {
 		return Set.copyOf(rooms);
