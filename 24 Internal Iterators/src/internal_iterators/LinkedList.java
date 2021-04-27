@@ -1,6 +1,6 @@
 package internal_iterators;
 
-public class LinkedList {
+public class LinkedList implements Iterable {
 
 	public static class Node{
 		public Object value;

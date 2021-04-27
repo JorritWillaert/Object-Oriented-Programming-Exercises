@@ -1,6 +1,6 @@
 package internal_iterators;
 
-public class ArrayList {
+public class ArrayList implements Iterable {
 	
 	public int[] elements;
 	
