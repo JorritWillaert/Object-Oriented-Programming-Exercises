@@ -9,7 +9,21 @@ public class ClientProgram {
 	}
 	
 	public static void printAll(Iterable iterable) {
-		iterable.forEach(new PrintConsumer());
+		
+		//Use an anonymous class instantiation
+//		iterable.forEach(new Consumer() {
+//			
+//			public void accept(Object value) {
+//				System.out.println(value);
+//			}
+//			
+//		});
+		
+		//Equivalent code as above (lambda-expression)
+		//iterable.forEach((Object value) -> {System.out.println(value);}); //We do not mention the interface Consumer, but Java determines it by itself (= target typing)
+		iterable.forEach(value -> System.out.println(value));
+		//Only possible since the interface Consumer has only one abstract method --> Usage of lambda expression is possible
+		//Iterator has two abstract methods (hasNext() and next()) --> Not possible to implement with a lambda expression
 	}
 	
 }
