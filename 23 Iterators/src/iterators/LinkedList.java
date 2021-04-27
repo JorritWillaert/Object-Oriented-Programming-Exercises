@@ -9,4 +9,8 @@ public class LinkedList {
 	
 	public Node firstNode; //For the moment - no encapsulation; This is the subject of this lecture
 	
+	public Iterator iterator() {
+		return new LinkedListIterator(this);
+	}
+	
 }
