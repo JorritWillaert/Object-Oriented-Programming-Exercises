@@ -7,13 +7,12 @@ public class ArrayList implements Iterable {
 	private Object[] elements; //Now: can be made private - nested class has access to elements
 	
 	public Iterator iterator() {
-		//Local class
-		class IteratorImpl implements Iterator {
+		return new Iterator() {
 			
 			private int index;
 			
 			//Non-static (= inner) class --> Constructor takes implicit an arrayList as argument + implicit field of an ArrayList
-			private IteratorImpl() {} //You can also remove this default constructor
+			//private IteratorImpl() {} //You can also remove this default constructor
 			
 			@Override
 			public boolean hasNext() {
@@ -26,9 +25,10 @@ public class ArrayList implements Iterable {
 				//return ArrayList.this.elements[index++];
 				return elements[index++]; //'elements' of ArrayList.this is implicitly used
 			}
-		}
-		
-		return new IteratorImpl(); //'this' of the outer class (= an instance of ArrayList) is given to the constructor
+		};
+		//Since you only use this class one time - class definition and instantiation put together
+		//Anonymous class instantiation
+		//"return new Interface/superclass (arguments constructor){body}"
 	}
 	
 }
