@@ -31,7 +31,7 @@ public class Room {
 	/**
 	 * @invar | getExamsInternal().stream().allMatch(exam -> exam.getRoomsInternal().contains(this))
 	 * 
-	 * @creates | this
+	 * @creates | result
 	 * @post | result != null
 	 * @post | result.stream().allMatch(exam -> exam != null)
 	 * 
