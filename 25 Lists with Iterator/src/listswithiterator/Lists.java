@@ -1,5 +1,7 @@
 package listswithiterator;
 
+import java.util.Iterator;
+
 abstract class Lists {
 	public String toString() {
 		String result = "[";
@@ -19,6 +21,7 @@ abstract class Lists {
 	}
 	
 	public abstract int getLength();
+	
 }
 
 class EmptyList extends Lists {
@@ -36,7 +39,7 @@ class EmptyList extends Lists {
 	}
 }
 
-class NonEmptyList extends Lists {
+class NonEmptyList extends Lists implements Iterable {
 	
 	/**
 	 * @invar | tail != null
@@ -75,5 +78,25 @@ class NonEmptyList extends Lists {
 			return false;
 		NonEmptyList otherNonEmptyList = (NonEmptyList) other;
 		return head == otherNonEmptyList.head && tail.equals(otherNonEmptyList.tail);
+	}
+	
+	@Override
+	public Iterator iterator() {
+		return new Iterator() {
+			
+			private Lists currentList;
+			
+			@Override
+			public boolean hasNext() {
+				return currentList.getLength() > 0;
+			}
+			
+			@Override
+			public Object next() {
+				int currentHead = head;
+				currentList = getTail();
+				return currentHead;
+			}
+		};
 	}
 }
