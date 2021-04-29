@@ -84,17 +84,18 @@ class NonEmptyList extends Lists implements Iterable {
 	public Iterator iterator() {
 		return new Iterator() {
 			
-			private Lists currentList;
+			private Lists list = NonEmptyList.this;
 			
 			@Override
 			public boolean hasNext() {
-				return currentList.getLength() > 0;
+				return list.getLength() > 0;
 			}
 			
 			@Override
 			public Object next() {
-				int currentHead = head;
-				currentList = getTail();
+				NonEmptyList listNonEmpty = (NonEmptyList)list;
+				int currentHead = listNonEmpty.getHead();
+				list = listNonEmpty.getTail();
 				return currentHead;
 			}
 		};
