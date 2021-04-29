@@ -1,6 +1,7 @@
 package listswithiterator;
 
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 abstract class Lists {
 	public String toString() {
@@ -39,7 +40,7 @@ class EmptyList extends Lists {
 	}
 }
 
-class NonEmptyList extends Lists implements Iterable {
+class NonEmptyList extends Lists implements Iterable, IterableInternal {
 	
 	/**
 	 * @invar | tail != null
@@ -100,4 +101,15 @@ class NonEmptyList extends Lists implements Iterable {
 			}
 		};
 	}
+	
+	@Override
+	public void forEach(Consumer consumer) {
+		Lists list = this;
+		while (list.getLength() != 0) {
+			NonEmptyList listNonEmpty = (NonEmptyList)list;
+			consumer.accept(listNonEmpty.getHead());
+			list = listNonEmpty.getTail();
+		}
+	}
+	
 }

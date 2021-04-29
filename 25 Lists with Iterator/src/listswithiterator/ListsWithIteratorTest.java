@@ -27,12 +27,14 @@ class ListsWithIteratorTest {
 		assertEquals(new NonEmptyList(10, new NonEmptyList(20, new NonEmptyList(30, new EmptyList()))), l4);
 		
 		//Test external iterator - Exotic method to test since normally you don't do this
-		int[] solution = new int[] {10, 20, 30};
-		int i = 0;
+		System.out.println("Test external iterator: expected output = 10, 20, 30");
 		for (Object element : l4) {
-			assertEquals(solution[i], element);
-			i += 1;
+			System.out.println(element);
 		}
+		
+		System.out.println("Test internal iterator: expected output = 10, 20, 30");
+		//Test internal iterator with lambda expression
+		l4.forEach(element -> System.out.println(element));
 	}
 
 }
