@@ -1,9 +1,7 @@
 package listswithiterator;
 
-import java.util.Iterator;
-import java.util.function.Consumer;
-
-abstract class Lists {
+abstract class Lists implements IterableSelfmade {
+	//Iterable from java.util is a generic interface. Better to use Iterable<Integer> if you use the java.util interface.
 	public String toString() {
 		String result = "[";
 		boolean first = true;
@@ -23,6 +21,38 @@ abstract class Lists {
 	
 	public abstract int getLength();
 	
+	@Override
+	public IteratorSelfmade iterator() {
+		//Iterator from java.util is a generic interface. Better to use Iterator<Integer> if you use the java.util interface.
+		return new IteratorSelfmade() {
+			
+			private Lists list = Lists.this;
+			
+			@Override
+			public boolean hasNext() {
+				return list.getLength() > 0;
+			}
+			
+			@Override
+			public Object next() {
+				NonEmptyList listNonEmpty = (NonEmptyList)list;
+				list = listNonEmpty.getTail();
+				return listNonEmpty.getHead();
+			}
+		};
+	}
+	
+	@Override
+	public void forEach(ConsumerSelfmade consumer) {
+		//Consumer from java.util is a generic interface. Better to use Consumer<Integer> if you use the java.util interface.
+		Lists list = this;
+		while (list.getLength() != 0) {
+			NonEmptyList listNonEmpty = (NonEmptyList)list;
+			consumer.accept(listNonEmpty.getHead());
+			list = listNonEmpty.getTail();
+		}
+	}
+	
 }
 
 class EmptyList extends Lists {
@@ -40,7 +70,7 @@ class EmptyList extends Lists {
 	}
 }
 
-class NonEmptyList extends Lists implements Iterable, IterableInternal {
+class NonEmptyList extends Lists {
 	
 	/**
 	 * @invar | tail != null
@@ -80,36 +110,6 @@ class NonEmptyList extends Lists implements Iterable, IterableInternal {
 		NonEmptyList otherNonEmptyList = (NonEmptyList) other;
 		return head == otherNonEmptyList.head && tail.equals(otherNonEmptyList.tail);
 	}
-	
-	@Override
-	public Iterator iterator() {
-		return new Iterator() {
-			
-			private Lists list = NonEmptyList.this;
-			
-			@Override
-			public boolean hasNext() {
-				return list.getLength() > 0;
-			}
-			
-			@Override
-			public Object next() {
-				NonEmptyList listNonEmpty = (NonEmptyList)list;
-				int currentHead = listNonEmpty.getHead();
-				list = listNonEmpty.getTail();
-				return currentHead;
-			}
-		};
-	}
-	
-	@Override
-	public void forEach(Consumer consumer) {
-		Lists list = this;
-		while (list.getLength() != 0) {
-			NonEmptyList listNonEmpty = (NonEmptyList)list;
-			consumer.accept(listNonEmpty.getHead());
-			list = listNonEmpty.getTail();
-		}
-	}
+
 	
 }

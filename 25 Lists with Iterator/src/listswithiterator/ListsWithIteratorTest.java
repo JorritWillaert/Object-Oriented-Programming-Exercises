@@ -2,6 +2,9 @@ package listswithiterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 class ListsWithIteratorTest {
@@ -26,15 +29,25 @@ class ListsWithIteratorTest {
 		assertEquals("[10,20,30]", l4.toString());
 		assertEquals(new NonEmptyList(10, new NonEmptyList(20, new NonEmptyList(30, new EmptyList()))), l4);
 		
-		//Test external iterator - Exotic method to test since normally you don't do this
-		System.out.println("Test external iterator: expected output = 10, 20, 30");
-		for (Object element : l4) {
-			System.out.println(element);
-		}
+		//If interfaces of java.util used, then you can use the enhanced for loop
 		
-		System.out.println("Test internal iterator: expected output = 10, 20, 30");
-		//Test internal iterator with lambda expression
-		l4.forEach(element -> System.out.println(element));
+		IteratorSelfmade i = l4.iterator();
+		assertTrue(i.hasNext());
+		assertEquals(10, i.next());
+		assertTrue(i.hasNext());
+		assertEquals(20, i.next());
+		assertTrue(i.hasNext());
+		assertEquals(30, i.next());
+		assertFalse(i.hasNext());
+		
+		ArrayList<Object> elements = new ArrayList<>();
+		l4.forEach(element -> {
+			elements.add(element);
+		});
+		
+		assertEquals(List.of(10, 20, 30), elements);
+		
+		//Iterator is a generic interface. Better to use Iterator<Integer> if you use the java.util interface.
 	}
 
 }
