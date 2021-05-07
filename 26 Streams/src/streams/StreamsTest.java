@@ -59,6 +59,11 @@ class StreamsTest {
 		//Stream just captures everything. Only 'executed' at collect().
 		
 		Student[] studentsArray = students.stream().toArray(n -> new Student[n]); //Needs to say that it has to create an array of Students.
+		
+		//Calculate the list of the first 10 students for which their average score is greater than ten.
+		List<Student> firstTenStudentsAvgAboveTen = students.stream().filter(student 
+				-> (student.exams.stream().mapToInt(exam -> exam.score).sum() / student.exams.size()) > 10)
+				.limit(10).collect(Collectors.toList());
 	}
 
 }
