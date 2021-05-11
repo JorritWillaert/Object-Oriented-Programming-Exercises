@@ -16,6 +16,10 @@ class Student {
 	String name;
 	int credits;
 	List<Exam> exams;
+	
+	boolean isGoodStudent() {
+		return (exams.stream().mapToInt(e -> e.score).sum() * 1.0 / exams.size()) > 10; //*1.0 to prevent rounding of integers
+	}
 }
 
 class MasterStudent extends Student {
@@ -63,6 +67,10 @@ class StreamsTest {
 		//Calculate the list of the first 10 students for which their average score is greater than ten.
 		List<Student> firstTenStudentsAvgAboveTen = students.stream().filter(student 
 				-> (student.exams.stream().mapToInt(exam -> exam.score).sum() / student.exams.size()) > 10)
+				.limit(10).collect(Collectors.toList());
+		//Other possibility:
+		List<Student> firstTenStudentsAvgAboveTenOtherPos = students.stream().filter(student 
+				-> student.isGoodStudent())
 				.limit(10).collect(Collectors.toList());
 	}
 
