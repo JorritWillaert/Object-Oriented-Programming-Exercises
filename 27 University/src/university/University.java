@@ -94,6 +94,11 @@ class LinkedList<T> {
 		for (Iterator<? extends T> i = other.iterator(); i.hasNext(); )
 			add(i.next());
 	}
+	
+	//Also possible: LinkedList<T> from, LinkedList<? super T> to - You may also use both at once
+	static <T> void copy(LinkedList<? extends T> from, LinkedList<T> to) { //Linked list where you're copying to must be a super type of where you copy from. Note the parameter <T> after static!
+		from.copyTo(to);
+	}
 }
 
 class SortedLinkedList<T extends Comparable<T>> extends LinkedList<T> { //"T extends Comparable<T>": T must be comparable with itself (Type bound). T is a bounded type parameter
@@ -159,7 +164,10 @@ public class University {
 		
 		//Let's implement two different methods for this
 		students.copyTo(result); //Give a LinkedList of Member - Allowed due to lower-bounded wildcard.
-		result.addAll(staffMembers); //Generics are invariant
+		//result.addAll(staffMembers); //Generics are invariant
+		
+		//Another method to try (static now)
+		LinkedList.copy(staffMembers, result);
 		return result;
 	}
 	
