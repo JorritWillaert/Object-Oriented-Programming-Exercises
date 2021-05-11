@@ -8,45 +8,45 @@ class StaffMember {
 	int nbPubs;
 }
 
-interface IteratorOfStudent {
+interface Iterator {
 	boolean hasNext();
-	Student next();
+	Object next();
 }
 
-class LinkedListOfStudent {
+class LinkedList {
 	
 	static class Node {
 		Node previous;
-		Student element;
+		Object element;
 		Node next;
 	}
 	
 	Node sentinel;
 	
-	LinkedListOfStudent() {
+	LinkedList() {
 		sentinel = new Node();
 		sentinel.next = sentinel;
 		sentinel.previous = sentinel;
 	}
 	
-	void add(Student student) {
+	void add(Object element) {
 		Node node = new Node();
-		node.element = student;
+		node.element = element;
 		node.next = sentinel;
 		node.previous = sentinel.previous;
 		node.next.previous = node;
 		node.previous.next = node;
 	}
 	
-	boolean contains(Student student) {
+	boolean contains(Object element) {
 		for (Node n = sentinel.next; n != sentinel; n = n.next)
-			if (n.element == student)
+			if (n.element == element)
 				return true;
 		return false;
 	}
 	
-	IteratorOfStudent iterator() {
-		return new IteratorOfStudent() {
+	Iterator iterator() {
+		return new Iterator() {
 			Node node = sentinel.next;
 			
 			@Override
@@ -55,8 +55,8 @@ class LinkedListOfStudent {
 			}
 			
 			@Override
-			public Student next() {
-				Student result = node.element;
+			public Object next() {
+				Object result = node.element;
 				node = node.next;
 				return result;
 			}
@@ -66,7 +66,7 @@ class LinkedListOfStudent {
 
 public class University {
 
-	private LinkedListOfStudent students = new LinkedListOfStudent();
+	private LinkedList students = new LinkedList();
 	private LinkedList staffMembers = new LinkedList();
 	
 	void addStudent(Student student) {
@@ -80,22 +80,26 @@ public class University {
 	int averageNbCredits() {
 		int nbCredits = 0;
 		int nbStudents = 0;
-		for (IteratorOfStudent i = students.iterator(); i.hasNext(); ) {
-			nbCredits += i.next().nbCredits;
+		for (Iterator i = students.iterator(); i.hasNext(); ) {
+			nbCredits += ((Student)i.next()).nbCredits;
 			nbStudents++;
 		}
-		return nbCredits / nbCredits;
+		return nbCredits / nbStudents;
 	}
 	
 	void addStaffMember(StaffMember staffMember) {
-		
+		staffMembers.add(staffMember);
 	}
 	
 	boolean hasStafMember(StaffMember staffMember) {
-		
+		return staffMembers.contains(staffMember);
 	}
 	
 	int totalNbPubs() {
-		
+		int result = 0;
+		for (Iterator i = staffMembers.iterator(); i.hasNext();)
+			result += ((StaffMember)i.next()).nbPubs;
+		return result;
 	}
+	
 }
