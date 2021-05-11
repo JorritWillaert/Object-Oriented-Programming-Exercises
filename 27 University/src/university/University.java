@@ -10,26 +10,33 @@ interface Comparable<T> {
 	int compareTo(T other);
 }
 
-class Member {
+class Member implements Comparable<Member> {
+	
+	int seniority;
+	
+	@Override
+	public int compareTo(Member other) {
+		return seniority - other.seniority;
+	}
 	
 }
 
-class Student extends Member implements Comparable<Student> {
+class Student extends Member { //implements Comparable<Student> {
 	int nbCredits;
 	
-	@Override
-	public int compareTo(Student other) {
-		return nbCredits - other.nbCredits;
-	}
+//	@Override
+//	public int compareTo(Student other) {
+//		return nbCredits - other.nbCredits;
+//	}
 }
 
-class StaffMember extends Member implements Comparable<StaffMember> {
+class StaffMember extends Member { //implements Comparable<StaffMember> {
 	int nbPubs;
 	
-	@Override
-	public int compareTo(StaffMember other) {
-		return nbPubs - other.nbPubs;
-	}
+//	@Override
+//	public int compareTo(StaffMember other) {
+//		return nbPubs - other.nbPubs;
+//	}
 }
 
 interface Iterator<E> {
@@ -116,7 +123,8 @@ class LinkedList<T> {
 	}
 }
 
-class SortedLinkedList<T extends Comparable<T>> extends LinkedList<T> { //"T extends Comparable<T>": T must be comparable with itself (Type bound). T is a bounded type parameter
+//T extends Comparable<? super T>> - Make as general as possible
+class SortedLinkedList<T extends Comparable<? super T>> extends LinkedList<T> { //"T extends Comparable<T>": T must be comparable with itself (Type bound). T is a bounded type parameter
 	
 	@Override
 	void add(T element) {
