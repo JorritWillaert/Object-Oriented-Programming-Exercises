@@ -1,5 +1,7 @@
 package university;
 
+import java.util.function.IntFunction;
+
 interface Comparable<T> {
 	
 	/**
@@ -51,6 +53,14 @@ class LinkedList<T> {
 		sentinel.previous = sentinel;
 	}
 	
+	//Note: Generics are used only for the static type checking. Once running, everything is changed in "Object".
+	//This means that it is not possible to make: T[] toArray() {}
+	T[] toArray(IntFunction<T[]> generator) {
+		//T[] result = new T[10]; //You can't create an array where the element type is a type parameter. Because the element type of an array must be known at runtime.
+		T[] result = generator.apply(10);
+		return result;
+	}
+	
 	void add(T element) {
 		Node node = new Node();
 		node.element = element;
@@ -58,6 +68,11 @@ class LinkedList<T> {
 		node.previous = sentinel.previous;
 		node.next.previous = node;
 		node.previous.next = node;
+	}
+	
+	@SuppressWarnings("unchecked")
+	void addObject(Object element) { //Do this only if you're sure that this cast will always succeed at runtime
+		add((T)element); //Unchecked cast; No runtime check
 	}
 	
 	boolean contains(T element) {
@@ -131,6 +146,10 @@ public class University {
 		return students.contains(student);
 	}
 	
+	Student[] getStudentsAsArray() {
+		return students.toArray(n -> new Student[n]);
+	}
+	
 	int averageNbCredits() {
 		int nbCredits = 0;
 		int nbStudents = 0;
@@ -143,6 +162,7 @@ public class University {
 	
 	void addStaffMember(StaffMember staffMember) {
 		staffMembers.add(staffMember);
+		//students.addObject(staffMember) //No exception at runtime due to unchecked cast (heap pollution - add wrong types to generic collection)
 	}
 	
 	boolean hasStafMember(StaffMember staffMember) {
