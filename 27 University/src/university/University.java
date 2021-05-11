@@ -8,16 +8,16 @@ class StaffMember {
 	int nbPubs;
 }
 
-interface Iterator {
+interface Iterator<E> {
 	boolean hasNext();
-	Object next();
+	E next();
 }
 
-class LinkedList {
+class LinkedList<T> {
 	
-	static class Node {
+	class Node { //Need to write Node<T> if you use static classes. Not needed if inner class is used (now used)
 		Node previous;
-		Object element;
+		T element;
 		Node next;
 	}
 	
@@ -29,7 +29,7 @@ class LinkedList {
 		sentinel.previous = sentinel;
 	}
 	
-	void add(Object element) {
+	void add(T element) {
 		Node node = new Node();
 		node.element = element;
 		node.next = sentinel;
@@ -38,15 +38,15 @@ class LinkedList {
 		node.previous.next = node;
 	}
 	
-	boolean contains(Object element) {
+	boolean contains(T element) {
 		for (Node n = sentinel.next; n != sentinel; n = n.next)
 			if (n.element == element)
 				return true;
 		return false;
 	}
 	
-	Iterator iterator() {
-		return new Iterator() {
+	Iterator<T> iterator() {
+		return new Iterator<T>() {
 			Node node = sentinel.next;
 			
 			@Override
@@ -55,8 +55,8 @@ class LinkedList {
 			}
 			
 			@Override
-			public Object next() {
-				Object result = node.element;
+			public T next() {
+				T result = node.element;
 				node = node.next;
 				return result;
 			}
@@ -66,8 +66,8 @@ class LinkedList {
 
 public class University {
 
-	private LinkedList students = new LinkedList();
-	private LinkedList staffMembers = new LinkedList();
+	private LinkedList<Student> students = new LinkedList<Student>(); //Instantiated type
+	private LinkedList<StaffMember> staffMembers = new LinkedList<StaffMember>(); //Instantiated type
 	
 	void addStudent(Student student) {
 		students.add(student);
@@ -80,8 +80,8 @@ public class University {
 	int averageNbCredits() {
 		int nbCredits = 0;
 		int nbStudents = 0;
-		for (Iterator i = students.iterator(); i.hasNext(); ) {
-			nbCredits += ((Student)i.next()).nbCredits;
+		for (Iterator<Student> i = students.iterator(); i.hasNext(); ) {
+			nbCredits += i.next().nbCredits;
 			nbStudents++;
 		}
 		return nbCredits / nbStudents;
@@ -97,8 +97,8 @@ public class University {
 	
 	int totalNbPubs() {
 		int result = 0;
-		for (Iterator i = staffMembers.iterator(); i.hasNext();)
-			result += ((StaffMember)i.next()).nbPubs;
+		for (Iterator<StaffMember> i = staffMembers.iterator(); i.hasNext();)
+			result += i.next().nbPubs;
 		return result;
 	}
 	
