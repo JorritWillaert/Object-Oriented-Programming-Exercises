@@ -1,9 +1,9 @@
 package listswithiteratorandgenerics;
 
-public interface IteratorSelfmade {
+public interface IteratorSelfmade<T> {
 	
 	boolean hasNext();
 	
-	Object next();
+	T next();
 
 }

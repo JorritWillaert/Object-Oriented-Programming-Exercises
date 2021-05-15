@@ -1,7 +1,7 @@
 package listswithiteratorandgenerics;
 
-public interface ConsumerSelfmade {
+public interface ConsumerSelfmade<T> {
 	
-	void accept(Object object);
+	void accept(T object);
 
 }

@@ -1,13 +1,12 @@
 package listswithiteratorandgenerics;
 
-abstract class Lists implements IterableSelfmade {
-	//Iterable from java.util is a generic interface. Better to use Iterable<Integer> if you use the java.util interface.
+abstract class Lists<I> implements IterableSelfmade<I> {
 	public String toString() {
 		String result = "[";
 		boolean first = true;
-		Lists list = this;
+		Lists<I> list = this;
 		while (list instanceof NonEmptyList) {
-			NonEmptyList nel = (NonEmptyList) list;
+			NonEmptyList<I> nel = (NonEmptyList<I>) list;
 			if (first) 
 				first = false;
 			else
@@ -22,11 +21,11 @@ abstract class Lists implements IterableSelfmade {
 	public abstract int getLength();
 	
 	@Override
-	public IteratorSelfmade iterator() {
+	public IteratorSelfmade<I> iterator() {
 		//Iterator from java.util is a generic interface. Better to use Iterator<Integer> if you use the java.util interface.
-		return new IteratorSelfmade() {
+		return new IteratorSelfmade<I>() {
 			
-			private Lists list = Lists.this;
+			private Lists<I> list = Lists.this;
 			
 			@Override
 			public boolean hasNext() {
@@ -34,8 +33,8 @@ abstract class Lists implements IterableSelfmade {
 			}
 			
 			@Override
-			public Object next() {
-				NonEmptyList listNonEmpty = (NonEmptyList)list;
+			public I next() {
+				NonEmptyList<I> listNonEmpty = (NonEmptyList<I>)list;
 				list = listNonEmpty.getTail();
 				return listNonEmpty.getHead();
 			}
@@ -43,11 +42,11 @@ abstract class Lists implements IterableSelfmade {
 	}
 	
 	@Override
-	public void forEach(ConsumerSelfmade consumer) {
+	public void forEach(ConsumerSelfmade<I> consumer) {
 		//Consumer from java.util is a generic interface. Better to use Consumer<Integer> if you use the java.util interface.
-		Lists list = this;
+		Lists<I> list = this;
 		while (list.getLength() != 0) {
-			NonEmptyList listNonEmpty = (NonEmptyList)list;
+			NonEmptyList<I> listNonEmpty = (NonEmptyList<I>)list;
 			consumer.accept(listNonEmpty.getHead());
 			list = listNonEmpty.getTail();
 		}
@@ -55,7 +54,7 @@ abstract class Lists implements IterableSelfmade {
 	
 }
 
-class EmptyList extends Lists {
+class EmptyList<I> extends Lists<I> {
 	public EmptyList() {}
 	
 	public int getLength() {
@@ -70,15 +69,15 @@ class EmptyList extends Lists {
 	}
 }
 
-class NonEmptyList extends Lists {
+class NonEmptyList<I> extends Lists<I> {
 	
 	/**
 	 * @invar | tail != null
 	 */
-	private final int head;
-	private final Lists tail;
+	private final I head;
+	private final Lists<I> tail;
 	
-	public NonEmptyList(int head, Lists tail) {
+	public NonEmptyList(I head, Lists<I> tail) {
 		if (tail == null)
 			throw new IllegalArgumentException("The given values-array may not be empty.");
 		this.head = head;
@@ -88,14 +87,14 @@ class NonEmptyList extends Lists {
 	/**
 	 * @basic
 	 */
-	public int getHead() {
+	public I getHead() {
 		return head;
 	}
 	
 	/**
 	 * @basic
 	 */
-	public Lists getTail() {
+	public Lists<I> getTail() {
 		return tail;
 	}
 	
@@ -107,7 +106,8 @@ class NonEmptyList extends Lists {
 	public boolean equals(Object other) {
 		if (!(other instanceof NonEmptyList))
 			return false;
-		NonEmptyList otherNonEmptyList = (NonEmptyList) other;
+		@SuppressWarnings("unchecked")
+		NonEmptyList<I> otherNonEmptyList = (NonEmptyList<I>)other;
 		return head == otherNonEmptyList.head && tail.equals(otherNonEmptyList.tail);
 	}
 

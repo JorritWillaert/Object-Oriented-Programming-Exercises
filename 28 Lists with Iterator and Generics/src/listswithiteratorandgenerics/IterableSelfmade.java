@@ -1,9 +1,9 @@
 package listswithiteratorandgenerics;
 
-public interface IterableSelfmade {
+public interface IterableSelfmade<T> {
 	
-	IteratorSelfmade iterator();
+	IteratorSelfmade<T> iterator();
 	
-	void forEach(ConsumerSelfmade consumer);
+	void forEach(ConsumerSelfmade<T> consumer);
 	
 }
