@@ -1,6 +1,6 @@
 package listswithiteratorandgenerics;
 
-abstract class Lists<I> implements IterableSelfmade<I> {
+abstract class Lists<I extends Comparable<I>> implements IterableSelfmade<I> {
 	public String toString() {
 		String result = "[";
 		boolean first = true;
@@ -54,7 +54,7 @@ abstract class Lists<I> implements IterableSelfmade<I> {
 	
 }
 
-class EmptyList<I> extends Lists<I> {
+class EmptyList<I extends Comparable<I>> extends Lists<I> {
 	public EmptyList() {}
 	
 	public int getLength() {
@@ -69,7 +69,7 @@ class EmptyList<I> extends Lists<I> {
 	}
 }
 
-class NonEmptyList<I> extends Lists<I> {
+class NonEmptyList<I extends Comparable<I>> extends Lists<I> {
 	
 	/**
 	 * @invar | tail != null

@@ -40,12 +40,24 @@ class ListsWithIteratorTest {
 		assertEquals(30, i.next());
 		assertFalse(i.hasNext());
 		
-		ArrayList<Object> elements = new ArrayList<>();
+		ArrayList<Integer> elements = new ArrayList<Integer>();
 		l4.forEach(element -> {
 			elements.add(element);
 		});
 		
 		assertEquals(List.of(10, 20, 30), elements);
+		
+		ArrayList<Integer> elementsSortedReverse = new ArrayList<Integer>();
+		l4.forEach(element -> {
+			int index = 0;
+			while (index < elementsSortedReverse.size() && elementsSortedReverse.get(index).compareTo(element) > 0) {
+				index++;
+			}
+			elementsSortedReverse.add(index, element);
+		});
+		
+		assertEquals(List.of(30, 20, 10), elementsSortedReverse);
+		
 	}
 
 }
