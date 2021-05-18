@@ -2,11 +2,19 @@ package discussionforum;
 
 import java.util.List;
 
+/**
+ * Instances of this class represent a message.
+ * 
+ * @invar | getAuthor() != null
+ * @invar | getReactions() != null
+ * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()))
+ */
 public abstract class Message {
 	
 	/**
 	 * @invar | author != null
 	 * @invar | reactions != null
+	 * @invar | reactions.stream().allMatch(r -> r != null)
 	 */
 	private final String author;
 	List<Reaction> reactions;

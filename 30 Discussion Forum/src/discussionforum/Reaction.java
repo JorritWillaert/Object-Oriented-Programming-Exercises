@@ -2,6 +2,14 @@ package discussionforum;
 
 import logicalcollections.LogicalList;
 
+/**
+ * An instance of this class represents a reaction.
+ * 
+ * @invar | getAuthor() != null
+ * @invar | getReactions() != null
+ * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()))
+ * @invar | getParentMessage() != null
+ */
 public class Reaction extends Message {
 	
 	/**
