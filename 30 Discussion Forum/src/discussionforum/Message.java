@@ -1,5 +1,8 @@
 package discussionforum;
 
+import logicalcollections.LogicalList;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,17 +10,23 @@ import java.util.List;
  * 
  * @invar | getAuthor() != null
  * @invar | getReactions() != null
- * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()))
+ * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()) && r.getParentMessage() == this)
+ * @invar | LogicalList.distinct(getReactions())
  */
-public abstract class Message {
+public class Message {
 	
 	/**
 	 * @invar | author != null
 	 * @invar | reactions != null
-	 * @invar | reactions.stream().allMatch(r -> r != null)
+	 * @invar | reactions.stream().allMatch(r -> r != null && !(r.isRemoved()) && r.getParentMessage() == this)
+	 * @invar | LogicalList.distinct(reactions)
 	 */
 	private final String author;
-	List<Reaction> reactions;
+	/**
+	 * @representationObject
+	 * @peerObjects
+	 */
+	final List<Reaction> reactions = new ArrayList<>();
 	boolean removed;
 	
 	/**
@@ -34,17 +43,23 @@ public abstract class Message {
 	
 	/**
 	 * @pre | !(isRemoved())
-	 * 
+	 * @mutates | this
 	 * @post | isRemoved()
 	 */
-	public abstract void removeMessage();
+	public void removeMessage() {
+		this.removed = true;
+	}
 	
+	/**
+	 * @immutable
+	 */
 	public String getAuthor() {
 		return author;
 	}
 	
 	/**
 	 * @creates | result
+	 * @peerObjects
 	 */
 	public List<Reaction> getReactions() {
 		return List.copyOf(reactions);
