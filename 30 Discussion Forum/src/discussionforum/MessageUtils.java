@@ -60,9 +60,8 @@ public class MessageUtils {
 		
 		Message message = messageGiven;
 		while (message instanceof Reaction) {
-			Reaction reaction = (Reaction)message;
-			consumer.accept(reaction);
-			message = reaction.getParentMessage();
+			message = ((Reaction)message).getParentMessage();
+			consumer.accept(message);
 		}
 	}
 	
