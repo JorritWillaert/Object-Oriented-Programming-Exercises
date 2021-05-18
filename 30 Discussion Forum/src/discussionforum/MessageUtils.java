@@ -63,7 +63,6 @@ public class MessageUtils {
 			consumer.accept(reaction);
 			message = reaction.getParentMessage();
 		}
-		consumer.accept(message);
 	}
 	
 	
