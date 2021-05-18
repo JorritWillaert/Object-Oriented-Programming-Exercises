@@ -7,17 +7,19 @@ import logicalcollections.LogicalList;
  * 
  * @invar | getAuthor() != null
  * @invar | getReactions() != null
- * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()))
+ * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()) && r.getParentMessage() == this)
  * @invar | getParentMessage() != null
+ * @invar | isRemoved() || getParentMessage().getReactions().contains(this)
  */
 public class Reaction extends Message {
 	
 	/**
-	 * parentMessage != null
+	 * @invar | parentMessage != null
+	 * @invar | isRemoved() || parentMessage.getReactions().contains(this)
 	 * 
 	 * @peerObject
 	 */
-	private Message parentMessage;
+	private final Message parentMessage;
 
 	/**
 	 * @throws IllegalArgumentException if the author is null.
@@ -25,8 +27,12 @@ public class Reaction extends Message {
 	 * @throws IllegalArgumentException if the parentMessage is null.
 	 * 		| parentMessage == null
 	 * 
+	 * @mutates_properties | parentMessage.getReactions()
+	 * 
 	 * @post | getAuthor().equals(author)
 	 * @post | getParentMessage() == parentMessage
+	 * @post | getReactions().isEmpty()
+	 * @post | !(isRemoved())
 	 * @post | parentMessage.getReactions().equals(LogicalList.plus(old(parentMessage.getReactions()), this))
 	 */
 	public Reaction(String author, Message parentMessage) {
@@ -38,6 +44,7 @@ public class Reaction extends Message {
 	}
 	
 	/**
+	 * @immutable
 	 * @peerObject
 	 */
 	public Message getParentMessage() {
@@ -47,11 +54,12 @@ public class Reaction extends Message {
 	@Override
 	/**
 	 * @pre | !(isRemoved())
-	 * 
-	 * @post | isRemoved() && old(getParentMessage()).getReactions().equals(LogicalList.minus(old(getParentMessage().getReactions()), this))
+	 * @mutates_properties | isRemoved(), getParentMessage().getReactions()
+	 * @post | isRemoved()
+	 * @post | getParentMessage().getReactions().equals(LogicalList.minus(old(getParentMessage().getReactions()), this))
 	 */
 	public void removeMessage() {
-		this.removed = true;
+		super.removeMessage();
 		parentMessage.reactions.remove(this);
 	}
 	

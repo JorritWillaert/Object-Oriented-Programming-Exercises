@@ -28,7 +28,7 @@ public class OriginalMessage extends Message {
 	 * @post | isRemoved()
 	 */
 	public void removeMessage() {
-		this.removed = true;
+		super.removeMessage();
 	}
 
 }
