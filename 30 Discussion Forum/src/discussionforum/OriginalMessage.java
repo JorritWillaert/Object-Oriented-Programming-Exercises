@@ -5,7 +5,7 @@ package discussionforum;
  * 
  * @invar | getAuthor() != null
  * @invar | getReactions() != null
- * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()))
+ * @invar | getReactions().stream().allMatch(r -> r != null && !(r.isRemoved()) && r.getParentMessage() == this)
  */
 public class OriginalMessage extends Message {
 	
@@ -14,6 +14,8 @@ public class OriginalMessage extends Message {
 	 * 		| author == null
 	 * 
 	 * @post | getAuthor().equals(author)
+	 * @post | getReactions().isEmpty()
+	 * @post | !(isRemoved())
 	 */
 	public OriginalMessage(String author) {
 		super(author);
@@ -22,7 +24,7 @@ public class OriginalMessage extends Message {
 	@Override
 	/**
 	 * @pre | !(isRemoved())
-	 * 
+	 * @mutates_properties | isRemoved()
 	 * @post | isRemoved()
 	 */
 	public void removeMessage() {
