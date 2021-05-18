@@ -1,6 +1,7 @@
 package discussionforum;
 
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 public class MessageUtils {
 
@@ -41,6 +42,27 @@ public class MessageUtils {
 				return message.getParentMessage();
 			}
 		};
+	}
+	
+	/**
+	 * @throws IllegalArgumentException if the given message is null.
+	 * 		| messageGiven == null
+	 * @throws IllegalArgumentException if the consumer is null.
+	 * 		| consumer == null
+	 */
+	public static void forEachAncestor(Message messageGiven, Consumer<? super Message> consumer) {
+		if (messageGiven == null)
+			throw new IllegalArgumentException("The given message may not be null.");
+		if (consumer == null)
+			throw new IllegalArgumentException("The consumer may not be null.");
+		
+		Message message = messageGiven;
+		while (message instanceof Reaction) {
+			Reaction reaction = (Reaction)message;
+			consumer.accept(reaction);
+			message = reaction.getParentMessage();
+		}
+		consumer.accept(message);
 	}
 	
 }
