@@ -42,7 +42,7 @@ abstract class Lists<I extends Comparable<I>> implements IterableSelfmade<I> {
 	}
 	
 	@Override
-	public void forEach(ConsumerSelfmade<I> consumer) {
+	public void forEach(ConsumerSelfmade<? super I> consumer) {
 		//Consumer from java.util is a generic interface. Better to use Consumer<Integer> if you use the java.util interface.
 		Lists<I> list = this;
 		while (list.getLength() != 0) {
@@ -104,11 +104,10 @@ class NonEmptyList<I extends Comparable<I>> extends Lists<I> {
 
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof NonEmptyList))
+		if (!(other instanceof NonEmptyList<?>)) //As already told, the type parameter is removed at erasure. We can only check equals by checking if all its elements are equal.
 			return false;
-		@SuppressWarnings("unchecked")
-		NonEmptyList<I> otherNonEmptyList = (NonEmptyList<I>)other;
-		return head == otherNonEmptyList.head && tail.equals(otherNonEmptyList.tail);
+		NonEmptyList<?> otherNonEmptyList = (NonEmptyList<?>)other; //<?> All subclasses of Object - Effectively everything
+		return head.equals(otherNonEmptyList.head) && tail.equals(otherNonEmptyList.tail);
 	}
 
 	

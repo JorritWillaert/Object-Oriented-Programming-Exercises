@@ -4,6 +4,6 @@ public interface IterableSelfmade<T> {
 	
 	IteratorSelfmade<T> iterator();
 	
-	void forEach(ConsumerSelfmade<T> consumer);
+	void forEach(ConsumerSelfmade<? super T> consumer);
 	
 }

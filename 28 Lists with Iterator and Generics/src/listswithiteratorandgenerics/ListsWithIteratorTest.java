@@ -11,7 +11,7 @@ class ListsWithIteratorTest {
 
 	@Test
 	void test() {
-		EmptyList<Integer> myEmptyList = new EmptyList<Integer>();
+		EmptyList<Integer> myEmptyList = new EmptyList<Integer>(); //<> right also allowed - Diamond notation
 		EmptyList<Integer> mySecondEmptyList = new EmptyList<Integer>();
 		
 		assertEquals("[]", "" + myEmptyList);
@@ -40,8 +40,8 @@ class ListsWithIteratorTest {
 		assertEquals(30, i.next());
 		assertFalse(i.hasNext());
 		
-		ArrayList<Integer> elements = new ArrayList<Integer>();
-		l4.forEach(element -> {
+		ArrayList<Number> elements = new ArrayList<Number>();
+		l4.forEach((Number element) -> { //Number is superclass of Integer. This is allowed because we stated "ConsumerSelfmade<? super T>"
 			elements.add(element);
 		});
 		
