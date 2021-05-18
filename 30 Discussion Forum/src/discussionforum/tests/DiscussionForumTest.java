@@ -2,11 +2,14 @@ package discussionforum.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import discussionforum.Message;
+import discussionforum.MessageUtils;
 import discussionforum.OriginalMessage;
 import discussionforum.Reaction;
 
@@ -34,6 +37,18 @@ class DiscussionForumTest {
 		assertEquals(List.of(reaction1, reaction2), rootMessage.getReactions());
 		assertEquals(List.of(reaction3), reaction2.getReactions());
 		assertEquals(reaction2, reaction3.getParentMessage());
+		
+		assertEquals(2, MessageUtils.calculateDepth(reaction3));
+		assertEquals(1, MessageUtils.calculateDepth(reaction2));
+		
+		List<Message> ancestors = new ArrayList<Message>();
+		for (Iterator<Message> iteratorAncestors = MessageUtils.iteratorAncestors(reaction3); iteratorAncestors.hasNext(); )
+			ancestors.add(iteratorAncestors.next());
+		assertEquals(List.of(reaction2, rootMessage), ancestors);
+		
+		List<Message> ancestorsInternal = new ArrayList<Message>();
+		MessageUtils.forEachAncestor(reaction3, m -> ancestorsInternal.add(m));
+		assertEquals(List.of(reaction2, rootMessage), ancestorsInternal);
 		
 		reaction1.removeMessage();
 		assertEquals(List.of(reaction2), rootMessage.getReactions());
