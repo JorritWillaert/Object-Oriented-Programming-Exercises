@@ -39,8 +39,9 @@ public class MessageUtils {
 			
 			@Override
 			public Message next() {
-				Reaction message = (Reaction)messageGiven;
-				return message.getParentMessage();
+				Reaction reaction = (Reaction)message;
+				message = reaction.getParentMessage();
+				return message;
 			}
 		};
 	}
