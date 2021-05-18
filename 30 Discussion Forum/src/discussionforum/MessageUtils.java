@@ -2,6 +2,7 @@ package discussionforum;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class MessageUtils {
 
@@ -63,6 +64,34 @@ public class MessageUtils {
 			message = reaction.getParentMessage();
 		}
 		consumer.accept(message);
+	}
+	
+	
+	/**
+	 * @throws IllegalArgumentException if the given message is null.
+	 * 		| message == null
+	 */
+	private static Stream<Message> streamAllMessages(Message message) {
+		 if (message == null)
+				throw new IllegalArgumentException("The given message may not be null.");
+		 Stream<Message> stream = Stream.of(message);
+		 Stream.concat(stream, message.getReactions().stream().flatMap(reaction -> streamAllMessages(reaction)));
+		 return stream;
+	}
+	
+	/**
+	 * @throws IllegalArgumentException if the given original message is null.
+	 * 		| originalMessage == null
+	 * @throws IllegalArgumentException if the given author is null.
+	 * 		| author == null
+	 */
+	public static Stream<Message> streamOfGivenAuthor(OriginalMessage originalMessage, String author) {
+		if (originalMessage == null)
+			throw new IllegalArgumentException("The given original message may not be null.");
+		if (author == null)
+			throw new IllegalArgumentException("The given author may not be null.");
+		Stream<Message> allMessages = streamAllMessages(originalMessage);
+		return allMessages.filter(m -> m.getAuthor().equals(author));
 	}
 	
 }
